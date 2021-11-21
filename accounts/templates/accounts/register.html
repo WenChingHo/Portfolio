@@ -1,0 +1,25 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1>Register</h1>
+    <form style="text-align:left; padding-top:5px; border:1px solid black; min-height: 25rem; border-radius: 5%;"
+        action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div style="margin:5px; padding-left: 5px;" class="form-group">
+            <label class="form-label" for="first_name">{{ field.label_tag }}</label>
+            <div class="input-group input-group-merge">{{ field }}</div>
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <br><small style="color: red">{{ error }}</small>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button style="text-align: center !important;" class="btn btn-primary" type="submit">Register</button>
+    </form>
+    <p class="text-center">If you already have an accounts, <a href="{% url 'login' %}">login</a> instead.</p>
+</div>
+{% endblock %}
