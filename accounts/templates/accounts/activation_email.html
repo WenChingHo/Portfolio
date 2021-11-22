@@ -1,13 +1,18 @@
 {% autoescape off %}  
-Hi {{ user.username }},  
+Thank you for testing out my portfolio, {{ user.username }}! <br><br>
 Please click on the link to confirm your registration,
 
+
 {% if type == 'reset' %}
-http://{{ domain }}{% url 'resetpage' uidb64=uid token=token %}  
+{{protocol}}://{{ domain }}{% url 'resetpage' uidb64=uid token=token %}  
 
 {%else%}
-http://{{ domain }}{% url 'activate' uidb64=uid token=token %}  
+{{protocol}}://{{ domain }}{% url 'activate' uidb64=uid token=token %}  
 
 {%endif%}
-If you think, it's not you, then just ignore this email.  
+<br>
+If you did not create an account, please disregard this message.<br><br>
+<hr>
+Best, <br><br>
+Wen Ching Ho
 {% endautoescape %}

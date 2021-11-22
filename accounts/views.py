@@ -94,12 +94,12 @@ class reset(View):
     def get(self, request):
         if request.user.is_authenticated:  # if user already logged in, redirect to the portal
             return redirect('/dashboard')
-        form = ResetForm()  
+        form = ResetRequestForm()  
         context = {'form': form}
         return render(request, 'accounts/reset.html', context)
 
     def post(self, request):
-        password_reset_form = ResetForm(request.POST)
+        password_reset_form = ResetRequestForm(request.POST)
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
             user = User.objects.filter(Q(email=data))
@@ -137,8 +137,11 @@ def activate(request, uidb64, token):
     return redirect('/dashboard')
 
 
-def resetpage(request):
-    pass
+class resetpage(View):
+    def get(self, request, uidb64, token):
+        form = ResetFormPage()
+        context = {'form':form}
+        return render(request, 'accounts/resetpage.html', context)
 
 
 

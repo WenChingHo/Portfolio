@@ -1,0 +1,40 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+{% include 'messages.html' %}
+<div style="margin: auto; width:22rem; text-align: center;">
+    <div class="container py-5">
+        <h1>Reset Password</h1>
+        <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
+            action="{% url 'resetpage' %}" method="POST">
+            <div style="margin-left: 2.3rem;">
+                {% csrf_token %}
+                <div class="form-group">
+                    {% for field in form %}
+                        <p style="margin-bottom: 0.5rem;">{{field.label}}:</p>
+                        {{field}}
+                        {% if field.help_text %}
+                            <br><small style="color: grey">{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <br><small class="error">{{ error }}</small>
+                        {% endfor %}
+                    {% endfor %}
+
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <span class="far fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin: 1rem 0 1rem 3.4rem;">
+                <button style="text-align: center !important;" class="btn btn-primary" type="submit">Reset</button>
+            </div>
+    </div>
+</div>
+</div>
+</form>
+{% endblock %}

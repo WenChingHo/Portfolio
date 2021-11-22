@@ -16,7 +16,7 @@ def custom_password_help_text_html():
         <li> Contains at least 1 letter(s) </li>
         <li> Contains at least 1 special characters(s) </li>
     </ul>""")
-class ResetForm(forms.Form):
+class ResetRequestForm(forms.Form):
     email = forms.EmailField()
 
     def clean_email(self):
@@ -27,6 +27,20 @@ class ResetForm(forms.Form):
         if not User.objects.filter(email=email).exists():
             raise ValidationError("Email does not exist.")
         return email
+
+class ResetFormPage(forms.Form):
+    password1 = forms.CharField(
+        label="Password",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        help_text=custom_password_help_text_html(),
+    )
+    password2 = forms.CharField(
+        label="Password confirmation",
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        strip=False,
+        help_text="Enter the same password as before, for verification.",
+    )
 
 
 class LoginForm(forms.Form):
