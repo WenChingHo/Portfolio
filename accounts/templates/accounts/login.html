@@ -1,49 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="346294449765-lnehj527k4h7bdvvr6rditc69u9eau8n.apps.googleusercontent.com">
+
     <title>Login</title>
-    
+
 </head>
+
 <body>
-    
+
 </body>
+
 </html>
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <div style="margin: auto; width:15rem; text-align: center;">
     <div class="container py-5">
         <h1>Login</h1>
-    <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
-    action="{% url 'login' %}" method="POST">
-    <div style="margin-left: 2.2rem;">
-        {% csrf_token %}
-        {% for field in form%}
-        
-         <div style='margin-top:0.3rem'>{{field.label}}: </div>
-         <div style='margin-bottom:0.5rem'>{{field}} </div>
-         {%endfor%}
-        {%if messages%}
-        {%for message in messages%}
-            <!-- <p>{{message}}</p> -->
-            <div class="alert alert-dismissible bg-primary text-white border-0 fade show" role="danger">
-                <small>{{message}}</small>
+        <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
+            action="{% url 'login' %}" method="POST">
+            <div style="margin-left: 2.2rem;">
+                {% csrf_token %}
+                {% for field in form%}
+
+                <div style='margin-top:0.3rem'>{{field.label}}: </div>
+                <div style='margin-bottom:0.5rem'>{{field}} </div>
+                {%endfor%}
+                {%if messages%}
+                {%for message in messages%}
+                <!-- <p>{{message}}</p> -->
+                <div class="alert alert-dismissible bg-primary text-white border-0 fade show" role="danger">
+                    <small>{{message}}</small>
+                </div>
+                {%endfor%}
+                {%endif%}
             </div>
-        {%endfor%}  
-        {%endif%}
-        </div>
-       
-        <div style="margin: 1rem 0 1rem 5.5rem;">
-            <button style="text-align: center !important;" class="btn btn-primary" type="submit">Login</button>
-        </div>
+
+            <div style="margin: 1rem 0 1rem 5.5rem;">
+                <button style="text-align: center !important;" class="btn btn-primary" type="submit">Login</button>
+            </div>
     </div>
-    
+    <div class="google_wrapper">
+        <a href="{% provider_login_url 'google' method='oauth2' %}">
+            <div class="google-btn">
+                <div class="google-icon-wrapper">
+                    <img class="google-icon"
+                        src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+                </div>
+                <p class="btn-text"><b>Sign in with Google</b></p>
+            </div>
+        </a>
+    </div>
+    <div class="google_wrapper">
+        <a href="{% provider_login_url 'github' method='oauth2' %}">
+            <div class="github-btn">
+                <div class="github-icon-wrapper">
+                    <img class="github-icon"
+                        src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"/>
+                </div>
+                <p class="btn-text"><b>Sign in with GitHub</b></p>
+            </div>
+        </a>
+    </div>
     </form>
-    
-    <p class="text-center">Don't have an accout? <a href="{% url 'register' %}">Sign-up</p></a> 
-    <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a href="{% url 'reset' %}">Reset</p></a> 
+
+    <p class="text-center">Don't have an accout? <a href="{% url 'register' %}">Sign-up</p></a>
+    <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a href="{% url 'reset' %}">Reset</p></a>
 </div>
 </div>
 </div>
+
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+.google_wrapper{
+    margin: 0 auto;
+    width : 184px;
+}    
+.google-btn {
+        width: 184px;
+        height: 38px;
+        background-color: #4285f4;
+        border-radius: 2px;
+        box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
+    }
+    .github-btn {
+        width: 184px;
+        height: 38px;
+        background-color: #404040;
+        border-radius: 2px;
+        box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
+    }
+    .github-btn .github-icon-wrapper {
+        position: absolute;
+        margin-top: 1px;
+        margin-left: 1px;
+        width: 34px;
+        height: 35.5px;
+        border-radius: 2px;
+        background-color: #fff;
+        text-align: left !important;
+    }
+    .github-icon {
+        text-align: left !important;
+        position: absolute;
+        margin-top: 4px;
+        margin-left: 4px;
+        width: 27px;
+        height: 27px;
+    }
+    .google-btn .google-icon-wrapper {
+        position: absolute;
+        margin-top: 1px;
+        margin-left: 1px;
+        width: 34px;
+        height: 35.5px;
+        border-radius: 2px;
+        background-color: #fff;
+        text-align: left !important;
+    }
+
+    .google-btn .google-icon {
+        text-align: left !important;
+        position: absolute;
+        margin-top: 9px;
+        margin-left: 8px;
+        width: 19px;
+        height: 19px;
+    }
+
+    .btn-text {
+        float: right;
+        margin: 11px 11px 0 0;
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        font-family: "Roboto";
+    }
+
+    .google-btn:hover {
+        box-shadow: 0 0 6px #4285f4;
+    }
+
+    .google-btn:active {
+        background: #1669F2;
+    }
+    .github-btn:hover{
+        box-shadow: 0 0 6px #404040;
+    }
+</style>

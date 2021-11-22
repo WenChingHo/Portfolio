@@ -10,7 +10,14 @@
     <div style="margin-left: 2.3rem;">
         {% csrf_token %}
         <div class="form-group">
-            <label class="form-label" for="email">{{form}}</label>
+                {% for field in form %}
+                    <p style="margin-bottom: 0.5rem;">{{field.label}}:</p>
+                    {{field}}
+                    {% for error in field.errors %}
+                        <br><small class="error">{{ error }}</small>
+                    {% endfor %}
+                {% endfor %}
+
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <span class="far fa-envelope"></span>

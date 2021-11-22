@@ -10,5 +10,4 @@ urlpatterns = [
      path('activate/<uidb64>/<token>', views.activate, name='activate'),
      path('resetpage/<uidb64>/<token>', views.resetpage, name='resetpage'),
      path('verification', views.verification.as_view(), name='verification'),
-
 ]

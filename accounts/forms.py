@@ -19,6 +19,16 @@ def custom_password_help_text_html():
 class ResetForm(forms.Form):
     email = forms.EmailField()
 
+    def clean_email(self):
+        """
+        Override clean_email to ensure emails saved in the User model are unique.
+        """
+        email = self.cleaned_data['email']
+        if not User.objects.filter(email=email).exists():
+            raise ValidationError("Email does not exist.")
+        return email
+
+
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(

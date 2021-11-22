@@ -30,7 +30,6 @@ class login(View):
     def post(self, request):
         form = LoginForm(request.POST)
         context = {'form':form}
-        print(form)
         if form.is_valid():
             email = form.cleaned_data['email']
             if User.objects.filter(email=email).exists():
@@ -40,6 +39,7 @@ class login(View):
             return render(request, 'accounts/login.html',context )
         print(form.cleaned_data['password'])
         user = authenticate(username=username, password=form.cleaned_data['password'])
+        print(user)
         if user:
             # A backend authenticated the credentials and succeeded
             auth_login(request, user)
@@ -100,8 +100,9 @@ class reset(View):
         password_reset_form = ResetForm(request.POST)
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
-            user = User.objects.get(Q(email=data))
+            user = User.objects.filter(Q(email=data))
             if user:
+                user = user[0]
                 token = PasswordResetTokenGenerator().make_token(user)
                 user.profile.temp_code = token
                 user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)

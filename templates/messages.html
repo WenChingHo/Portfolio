@@ -1,15 +1,18 @@
 {%if messages%}
     <div class="messages alert" role="danger">
         {%for message in messages%}
-        <small>{{message}}</small><br>
+        <small class="message_text">{{message}}</small><br>
         {%endfor%}
     </div>
 {%endif%}
 
 <style>
+    .message_text{
+        color: black;
+    }
     .alert {
-    z-index: -999;
-    position: absolute;
+    background-color: azure;
+    
     width:100%;
     text-align: center;
     opacity: 1;
@@ -17,9 +20,9 @@
     transform: translatey(0px);
     transition: visibility 0s, opacity 250ms, transform 250ms;
 }
-.alert.hide {
-    z-index: -999;
-    position: absolute;
+.hide {
+    background-color: azure;
+
     width:100%;
     text-align: center;
     opacity: 0;
@@ -39,8 +42,8 @@
     function fade_out() {
         $(".alert ").addClass("hide")
     }
-    setTimeout(fade_out, 5000)
+    setTimeout(remove, 3250)
     function remove(){
-        $(".alert ").addClass("hide").remove()
+        $(".alert ").remove()
     }
 </script>
