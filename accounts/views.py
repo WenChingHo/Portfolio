@@ -39,7 +39,7 @@ class login(View):
             return render(request, 'accounts/login.html',context )
         print(form.cleaned_data['password'])
         user = authenticate(username=username, password=form.cleaned_data['password'])
-        print(user)
+
         if user:
             # A backend authenticated the credentials and succeeded
             auth_login(request, user)
@@ -70,6 +70,8 @@ class register(View):
                 user.profile.temp_code = token
                 user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
                 send_verification_email(request,token,user,"")
+                messages.add_message(request, messages.SUCCESS, 'A verification email has been sent.')
+                messages.add_message(request, messages.WARNING, 'Please also check your SPAM inbox!')
                 # Authenticate and log user in
                 auth_login(request, user)   
                 return redirect('verification')
@@ -107,6 +109,7 @@ class reset(View):
                 user.profile.temp_code = token
                 user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
                 send_verification_email(request,token,user, 'reset')
+                messages.success(request, "A password reset link was sent to your mail")
         return render(request, 'accounts/reset.html', {'form':password_reset_form})
 
 
