@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
-
+from django import forms
 
 # Create your forms here.
 def custom_password_help_text_html():
@@ -16,6 +16,15 @@ def custom_password_help_text_html():
         <li> Contains at least 1 letter(s) </li>
         <li> Contains at least 1 special characters(s) </li>
     </ul>""")
+class ResetForm(forms.Form):
+    email = forms.EmailField()
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'})
+    )
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Please inform a valid email address.', required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))

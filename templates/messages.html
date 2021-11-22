@@ -1,0 +1,46 @@
+{%if messages%}
+    <div class="messages alert" role="danger">
+        {%for message in messages%}
+        <small>{{message}}</small><br>
+        {%endfor%}
+    </div>
+{%endif%}
+
+<style>
+    .alert {
+    z-index: -999;
+    position: absolute;
+    width:100%;
+    text-align: center;
+    opacity: 1;
+    visibility: visible;
+    transform: translatey(0px);
+    transition: visibility 0s, opacity 250ms, transform 250ms;
+}
+.alert.hide {
+    z-index: -999;
+    position: absolute;
+    width:100%;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translatey(-10px); 
+    transition: visibility 0s 250ms, opacity 250ms, transform 250ms;
+}
+</style>
+
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script text="javascript">
+    setTimeout(fade_out, 3000);
+    function fade_out() {
+        $(".alert ").addClass("hide")
+    }
+    setTimeout(fade_out, 5000)
+    function remove(){
+        $(".alert ").addClass("hide").remove()
+    }
+</script>

@@ -1,34 +1,49 @@
-{% extends "accounts/base.html" %}
-
-{% block content %}
-    <p>login</p>
-    <form style="text-align:left; padding-top:5px; border:1px solid black; min-height: 25rem; border-radius: 5%;"
-        action="{% url 'login' %}" method="POST">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+</head>
+<body>
+    
+</body>
+</html>
+{% load crispy_forms_tags %}
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<div style="margin: auto; width:15rem; text-align: center;">
+    <div class="container py-5">
+        <h1>Login</h1>
+    <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
+    action="{% url 'login' %}" method="POST">
+    <div style="margin-left: 2.2rem;">
         {% csrf_token %}
-        <div class="form-group">
-            <label class="form-label" for="email">Your email address:</label>
-            <div class="input-group input-group-merge">
-                <input id="email" type="email" name="email" required="" class="form-control form-control-prepended" placeholder="Your email address">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <span class="far fa-envelope"></span>
-                    </div>
-                </div>
+        {% for field in form%}
+        
+         <div style='margin-top:0.3rem'>{{field.label}}: </div>
+         <div style='margin-bottom:0.5rem'>{{field}} </div>
+         {%endfor%}
+        {%if messages%}
+        {%for message in messages%}
+            <!-- <p>{{message}}</p> -->
+            <div class="alert alert-dismissible bg-primary text-white border-0 fade show" role="danger">
+                <small>{{message}}</small>
             </div>
+        {%endfor%}  
+        {%endif%}
         </div>
-        <div class="form-group">
-            <label class="form-label" for="password">Your password:</label>
-            <div class="input-group input-group-merge">
-                <input id="password" type="password" name="password" required="" class="form-control form-control-prepended" placeholder="Your password">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <span class="far fa-key"></span>
-                    </div>
-                </div>
-            </div>
+       
+        <div style="margin: 1rem 0 1rem 5.5rem;">
+            <button style="text-align: center !important;" class="btn btn-primary" type="submit">Login</button>
         </div>
-        <div class="form-group ">
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </div>
+    </div>
+    
     </form>
-{% endblock %}
+    
+    <p class="text-center">Don't have an accout? <a href="{% url 'register' %}">Sign-up</p></a> 
+    <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a href="{% url 'reset' %}">Reset</p></a> 
+</div>
+</div>
+</div>

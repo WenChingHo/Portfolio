@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    {% include 'messages.html' %}
+
     <nav>
         {% if not user.is_authenticated %}
         <li class="nav-item">

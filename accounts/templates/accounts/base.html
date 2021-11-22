@@ -5,14 +5,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="346294449765-lnehj527k4h7bdvvr6rditc69u9eau8n.apps.googleusercontent.com.apps.googleusercontent.com">
     <title>Document</title>
+    <style>
+        .form-group{
+            margin:0.5rem;
+        }
+        .input-group{
+            margin-top:0.5rem;
+        }
+        .alert{
+            color:red
+        }
+    </style>
 </head>
 
 <body>
-    <div style="margin: auto; width:30%; text-align: center;">
-        {% block content %}
-        {% endblock %}
-    </div>
-</body>
 
+    {% block content %}
+    {% endblock %}
+
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script text="javascript">
+    setTimeout(fade_out, 3000);
+    function fade_out() {
+        $(".messages").fadeOut().empty();
+    }
+</script>
 </html>

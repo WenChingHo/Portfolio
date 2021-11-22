@@ -1,0 +1,13 @@
+{% autoescape off %}  
+Hi {{ user.username }},  
+Please click on the link to confirm your registration,
+
+{% if type == 'reset' %}
+http://{{ domain }}{% url 'resetpage' uidb64=uid token=token %}  
+
+{%else%}
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}  
+
+{%endif%}
+If you think, it's not you, then just ignore this email.  
+{% endautoescape %}
