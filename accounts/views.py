@@ -8,7 +8,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth.tokens import default_token_generator    
 from .util import send_verification_email
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_text
@@ -65,7 +65,7 @@ class register(View):
                 user.is_active = False
                 user.save()
 
-                token = PasswordResetTokenGenerator().make_token(user)
+                token = default_token_generator.make_token(user)
             
                 user.profile.temp_code = token
                 user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
@@ -74,7 +74,7 @@ class register(View):
                 messages.add_message(request, messages.WARNING, 'Please also check your SPAM inbox!')
                 # Authenticate and log user in
                 auth_login(request, user)   
-                return redirect('verification')
+                return redirect('accounts/verification')
             else:
                 messages.error(request, "Please fix the errors below and resubmit!")
                 return render(request, 'accounts/register.html', {'form':form} )
@@ -90,28 +90,6 @@ class log_out(View):
         messages.success(request, "Successfully signed out!")
         return redirect('/')
 
-class reset(View):
-    def get(self, request):
-        if request.user.is_authenticated:  # if user already logged in, redirect to the portal
-            return redirect('/dashboard')
-        form = ResetRequestForm()  
-        context = {'form': form}
-        return render(request, 'accounts/reset.html', context)
-
-    def post(self, request):
-        password_reset_form = ResetRequestForm(request.POST)
-        if password_reset_form.is_valid():
-            data = password_reset_form.cleaned_data['email']
-            user = User.objects.filter(Q(email=data))
-            if user:
-                user = user[0]
-                token = PasswordResetTokenGenerator().make_token(user)
-                user.profile.temp_code = token
-                user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
-                send_verification_email(request,token,user, 'reset')
-                messages.success(request, "A password reset link was sent to your mail")
-        return render(request, 'accounts/reset.html', {'form':password_reset_form})
-
 
 
 def activate(request, uidb64, token):
@@ -124,8 +102,8 @@ def activate(request, uidb64, token):
     
     if user and user.profile.temp_code == token:
         if user.profile.temp_code_valid < timezone.now():
-            messages.add_message(request, messages.WARNING, 'ccount activation link has expired. Please request another one')
-            return reverse('verification')
+            messages.add_message(request, messages.WARNING, 'account activation link has expired. Please request another one')
+            return redirect(reverse('verification'))
         user.is_active = True  # now we're activating the user
         user.profile.email_confirmed = True  # and we're changing the boolean field so that the token link becomes invalid
         user.save()
@@ -134,7 +112,31 @@ def activate(request, uidb64, token):
     else:
         messages.add_message(request, messages.WARNING, 'Account activation link is invalid.')
 
-    return redirect('/dashboard')
+    return redirect(reverse('dashboard'))
+
+
+class reset(View):
+    def get(self, request):
+        if request.user.is_authenticated:  # if user already logged in, redirect to the portal
+            return redirect(reverse('dashboard'))
+        form = ResetRequestForm()  
+        context = {'form': form}
+        return render(request, 'accounts/reset.html', context)
+
+    def post(self, request):
+        # ResetRequestForm checks if email is inside db
+        password_reset_form = ResetRequestForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            user = User.objects.get(email=data)
+            if user:
+                token = default_token_generator.make_token(user)
+                user.profile.temp_code = token
+                user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
+                user.save()
+                send_verification_email(request,token,user, 'reset')
+                messages.success(request, "A password reset link was sent to your mail")
+        return render(request, 'accounts/reset.html', {'form':password_reset_form})
 
 
 class resetpage(View):
@@ -142,7 +144,28 @@ class resetpage(View):
         form = ResetFormPage()
         context = {'form':form}
         return render(request, 'accounts/resetpage.html', context)
+    def post(self, request, uidb64, token):
+        form = ResetFormPage(request.POST)
+        if form.is_valid():
+            try:
+                uid = force_text(urlsafe_base64_decode(uidb64))
+                user = User.objects.get(pk=uid)
+                print(user, token, user.profile.temp_code)
+            except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
+                messages.add_message(request, messages.WARNING, str(e))
+                user = None
+            
+            if user and user.profile.temp_code == token:
+                if user.profile.temp_code_valid < timezone.now():
+                    messages.add_message(request, messages.WARNING, 'Password reset link has expired. Please request another one')
+                    return redirect(reverse('reset'))
+                user.password = form.cleaned_data["password1"]
+                user.save()
+                messages.add_message(request, messages.INFO, 'Password has been reset. Please login again')
+        else:
+            messages.add_message(request, messages.WARNING, 'Account activation link is invalid.')
 
+        return redirect(reverse('login'))
 
 
 class verification(View):
