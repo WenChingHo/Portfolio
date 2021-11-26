@@ -171,13 +171,13 @@ class resetpage(View):
 class email_verification(View):
     def get(self, request):
         '''A middleware is install to redirect all unverified user's action to this page until email is verifed'''
-        return render(request, f'accounts/email_verification.html')
+        pass
     
     def post(self, request):
         if user := request.user:
-            verification_expire_time = user.profile.profile.temp_code_valid
-            if verification_expire_time < timezone.now():
-                messages.add_message(request, messages.WARNING, f'You may send another verification email in {(verification_expire_time - timezone.now()).second()} seconds')
+            verification_expire_time = user.profile.temp_code_valid
+            if verification_expire_time > timezone.now():
+                messages.add_message(request, messages.WARNING, f'You may send another verification email in {(verification_expire_time - timezone.now()).seconds} seconds')
             else:
                 token = user.profile.temp_code
                 send_verification_email(request, token, user, type)
