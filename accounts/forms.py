@@ -41,6 +41,8 @@ class ResetFormPage(forms.Form):
         strip=False,
         help_text="Enter the same password as before, for verification.",
     )
+    def clean_password(self):
+        pass
 
 
 class LoginForm(forms.Form):
@@ -49,9 +51,15 @@ class LoginForm(forms.Form):
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'})
     )
+       
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(max_length=254, help_text='Required. Please inform a valid email address.', required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(
+        max_length=254, 
+        help_text='Required. Please inform a valid email address.', 
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        required=True
+    )
     password1 = forms.CharField(
         label="Password",
         strip=False,

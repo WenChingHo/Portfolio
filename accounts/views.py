@@ -16,6 +16,8 @@ from django.utils.encoding import force_text
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 
 
 # Create your views here.
@@ -62,19 +64,18 @@ class register(View):
             if form.is_valid():
                 user = form.save()
                 user.refresh_from_db()
-                user.is_active = False
                 user.save()
 
                 token = default_token_generator.make_token(user)
             
                 user.profile.temp_code = token
                 user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
-                send_verification_email(request,token,user,"")
-                messages.add_message(request, messages.SUCCESS, 'A verification email has been sent.')
+                messages.add_message(request, messages.SUCCESS, 'A email_verification email has been sent.')
                 messages.add_message(request, messages.WARNING, 'Please also check your SPAM inbox!')
-                # Authenticate and log user in
-                auth_login(request, user)   
-                return redirect('accounts/verification')
+                auth_login(request, user)
+                send_verification_email(request, token, user, "")
+
+                return redirect(reverse('email_verification'))
             else:
                 messages.error(request, "Please fix the errors below and resubmit!")
                 return render(request, 'accounts/register.html', {'form':form} )
@@ -103,22 +104,20 @@ def activate(request, uidb64, token):
     if user and user.profile.temp_code == token:
         if user.profile.temp_code_valid < timezone.now():
             messages.add_message(request, messages.WARNING, 'account activation link has expired. Please request another one')
-            return redirect(reverse('verification'))
-        user.is_active = True  # now we're activating the user
+            return redirect(reverse('email_verification'))
         user.profile.email_confirmed = True  # and we're changing the boolean field so that the token link becomes invalid
         user.save()
-        auth_login(request, user)  # log the user in
         messages.add_message(request, messages.INFO, 'Hi {0}.'.format(request.user))
     else:
         messages.add_message(request, messages.WARNING, 'Account activation link is invalid.')
-
-    return redirect(reverse('dashboard'))
+        redirect('/email_verification')
+    return redirect('/dashboard')
 
 
 class reset(View):
     def get(self, request):
         if request.user.is_authenticated:  # if user already logged in, redirect to the portal
-            return redirect(reverse('dashboard'))
+            return redirect('/dashboard')
         form = ResetRequestForm()  
         context = {'form': form}
         return render(request, 'accounts/reset.html', context)
@@ -136,6 +135,7 @@ class reset(View):
                 user.save()
                 send_verification_email(request,token,user, 'reset')
                 messages.success(request, "A password reset link was sent to your mail")
+            print(user.password)
         return render(request, 'accounts/reset.html', {'form':password_reset_form})
 
 
@@ -168,6 +168,20 @@ class resetpage(View):
         return redirect(reverse('login'))
 
 
-class verification(View):
+class email_verification(View):
     def get(self, request):
-        return render(request, 'accounts/verification.html')
+        '''A middleware is install to redirect all unverified user's action to this page until email is verifed'''
+        return render(request, f'accounts/email_verification.html')
+    
+    def post(self, request):
+        if user := request.user:
+            verification_expire_time = user.profile.profile.temp_code_valid
+            if verification_expire_time < timezone.now():
+                messages.add_message(request, messages.WARNING, f'You may send another verification email in {(verification_expire_time - timezone.now()).second()} seconds')
+            else:
+                token = user.profile.temp_code
+                send_verification_email(request, token, user, type)
+        else:
+            messages.add_message(request, messages.ERROR, "unrecognized user. Please check your logging crednetial again")
+            return redirect(reverse('login'))
+        return render(reverse('email_verification'))

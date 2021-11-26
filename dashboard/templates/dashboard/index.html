@@ -9,6 +9,12 @@
 </head>
 <body>
     {% include 'messages.html' %}
+
+    {{ user.get_full_name }}
+    {{ user.username }}
+    {{ user.email }}
+    {{ user.last_login }}
+
     <a href="{% url 'log_out' %}">logout</a>
 </body>
 </html>

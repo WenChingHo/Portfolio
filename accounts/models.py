@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 class Profile(models.Model):
+    login_type = []
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(verbose_name='Active?', default=True)
     temp_code = models.CharField(max_length=70, verbose_name='Temporary Code', blank=True, null=True)
