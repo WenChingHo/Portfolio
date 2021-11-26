@@ -6,7 +6,7 @@
     <div class="container py-5">
         <h1>Reset Password</h1>
     <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
-    action="{% url 'reset' %}" method="POST">
+    action="{% url 'account:reset' %}" method="POST">
     <div style="margin-left: 2.3rem;">
         {% csrf_token %}
         <div class="form-group">

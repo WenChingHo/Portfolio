@@ -20,5 +20,5 @@ class EmailVerificationMiddleware(MiddlewareMixin):
         if request.user.is_authenticated and not request.user.is_superuser:
             if not request.user.profile.email_confirmed:
                 # Override event in which user wants to login before they verify their emai
-                return redirect(reverse('email_verification'))
+                return redirect(reverse('account:email_verification'))
         return None
