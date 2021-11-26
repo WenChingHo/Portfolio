@@ -24,7 +24,7 @@
     <div class="container py-5">
         <h1>Login</h1>
         <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
-            action="{% url 'login' %}" method="POST">
+            action="{% url 'account:login' %}" method="POST">
             <div style="margin-left: 2.2rem;">
                 {% csrf_token %}
                 {% for field in form%}
@@ -70,7 +70,7 @@
     </div>
     </form>
 
-    <p class="text-center">Don't have an accout? <a href="{% url 'register' %}">Sign-up</p></a>
+    <p class="text-center">Don't have an accout? <a href="{% url 'account:register' %}">Sign-up</p></a>
     <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a href="{% url 'reset' %}">Reset</p></a>
 </div>
 </div>

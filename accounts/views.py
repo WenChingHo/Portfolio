@@ -75,7 +75,7 @@ class register(View):
                 auth_login(request, user)
                 send_verification_email(request, token, user, "")
 
-                return redirect(reverse('email_verification'))
+                return redirect(reverse('account:email_verification'))
             else:
                 messages.error(request, "Please fix the errors below and resubmit!")
                 return render(request, 'accounts/register.html', {'form':form} )
@@ -104,7 +104,7 @@ def activate(request, uidb64, token):
     if user and user.profile.temp_code == token:
         if user.profile.temp_code_valid < timezone.now():
             messages.add_message(request, messages.WARNING, 'account activation link has expired. Please request another one')
-            return redirect(reverse('email_verification'))
+            return redirect(reverse('account:email_verification'))
         user.profile.email_confirmed = True  # and we're changing the boolean field so that the token link becomes invalid
         user.save()
         messages.add_message(request, messages.INFO, 'Hi {0}.'.format(request.user))
@@ -158,14 +158,14 @@ class resetpage(View):
             if user and user.profile.temp_code == token:
                 if user.profile.temp_code_valid < timezone.now():
                     messages.add_message(request, messages.WARNING, 'Password reset link has expired. Please request another one')
-                    return redirect(reverse('reset'))
+                    return redirect(reverse('account:reset'))
                 user.password = form.cleaned_data["password1"]
                 user.save()
                 messages.add_message(request, messages.INFO, 'Password has been reset. Please login again')
         else:
             messages.add_message(request, messages.WARNING, 'Account activation link is invalid.')
 
-        return redirect(reverse('login'))
+        return redirect(reverse('account:login'))
 
 
 class email_verification(View):
@@ -183,5 +183,5 @@ class email_verification(View):
                 send_verification_email(request, token, user, type)
         else:
             messages.add_message(request, messages.ERROR, "unrecognized user. Please check your logging crednetial again")
-            return redirect(reverse('login'))
-        return render(reverse('email_verification'))
+            return redirect(reverse('account:login'))
+        return render(reverse('account:email_verification'))

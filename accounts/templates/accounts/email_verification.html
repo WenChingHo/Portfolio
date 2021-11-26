@@ -6,7 +6,6 @@
     <div class="container py-5">
         <h1>Verification Page</h1>
         <p>Please verify your email.</p>
-        <p>or click <a href = "{% url 'email_verification' %}">here</a> to send another verfiication email.</p>
         <form action="{% url 'email_verification' %}" method="post">
             {% csrf_token %}
             <div class="form-row">
