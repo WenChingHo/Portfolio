@@ -7,10 +7,16 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from decouple import config
+from django.contrib.auth.tokens import default_token_generator    
+from django.utils import timezone
+from datetime import timedelta
 
 
-def send_verification_email(request, token, user, type):
-
+def send_verification_email(request, user, type):
+    token = default_token_generator.make_token(user)
+    user.profile.temp_code = token
+    user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
+    user.save()
     email_content = render_to_string('accounts/activation_email.html', {
         'user': user,
         'type':type,

@@ -8,7 +8,6 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.contrib.auth.tokens import default_token_generator    
 from .util import send_verification_email
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_text
@@ -66,14 +65,10 @@ class register(View):
                 user.refresh_from_db()
                 user.save()
 
-                token = default_token_generator.make_token(user)
-            
-                user.profile.temp_code = token
-                user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
                 messages.add_message(request, messages.SUCCESS, 'A email_verification email has been sent.')
                 messages.add_message(request, messages.WARNING, 'Please also check your SPAM inbox!')
                 auth_login(request, user)
-                send_verification_email(request, token, user, "")
+                send_verification_email(request, user, "")
 
                 return redirect(reverse('account:email_verification'))
             else:
@@ -129,11 +124,7 @@ class reset(View):
             data = password_reset_form.cleaned_data['email']
             user = User.objects.get(email=data)
             if user:
-                token = default_token_generator.make_token(user)
-                user.profile.temp_code = token
-                user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
-                user.save()
-                send_verification_email(request,token,user, 'reset')
+                send_verification_email(request,user, 'reset')
                 messages.success(request, "A password reset link was sent to your mail")
             print(user.password)
         return render(request, 'accounts/reset.html', {'form':password_reset_form})
@@ -171,7 +162,7 @@ class resetpage(View):
 class email_verification(View):
     def get(self, request):
         '''A middleware is install to redirect all unverified user's action to this page until email is verifed'''
-        pass
+        return render(request, 'accounts/email_verification')
     
     def post(self, request):
         if user := request.user:
@@ -179,9 +170,8 @@ class email_verification(View):
             if verification_expire_time > timezone.now():
                 messages.add_message(request, messages.WARNING, f'You may send another verification email in {(verification_expire_time - timezone.now()).seconds} seconds')
             else:
-                token = user.profile.temp_code
-                send_verification_email(request, token, user, type)
+                send_verification_email(request, user, type)
         else:
-            messages.add_message(request, messages.ERROR, "unrecognized user. Please check your logging crednetial again")
+            messages.add_message(request, messages.WARNING, "unrecognized user. Please check your logging crednetial again")
             return redirect(reverse('account:login'))
-        return render(reverse('account:email_verification'))
+        return render(request, 'accounts/email_verification')

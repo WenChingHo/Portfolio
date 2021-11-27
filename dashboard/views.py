@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
-app_name = "dashboard"
+
 @login_required
 def index(request):
 
