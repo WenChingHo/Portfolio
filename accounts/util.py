@@ -17,6 +17,7 @@ def send_verification_email(request, user, type):
     user.profile.temp_code = token
     user.profile.temp_code_valid = timezone.now() + timedelta(minutes=10)
     user.save()
+    
     email_content = render_to_string('accounts/activation_email.html', {
         'user': user,
         'type':type,

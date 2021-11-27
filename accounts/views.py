@@ -162,7 +162,7 @@ class resetpage(View):
 class email_verification(View):
     def get(self, request):
         '''A middleware is install to redirect all unverified user's action to this page until email is verifed'''
-        return render(request, 'accounts/email_verification')
+        return render(request, 'accounts/email_verification.html')
     
     def post(self, request):
         if user := request.user:
@@ -174,4 +174,4 @@ class email_verification(View):
         else:
             messages.add_message(request, messages.WARNING, "unrecognized user. Please check your logging crednetial again")
             return redirect(reverse('account:login'))
-        return render(request, 'accounts/email_verification')
+        return render(request, 'accounts/email_verification.html')
