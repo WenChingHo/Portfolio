@@ -4,10 +4,10 @@ Please click on the link to confirm your registration,
 
 
 {% if type == 'reset' %}
-{{protocol}}://{{ domain }}{% url 'resetpage' uidb64=uid token=token %}  
+{{protocol}}://{{ domain }}{% url 'account:resetpage' uidb64=uid token=token %}  
 
 {%else%}
-{{protocol}}://{{ domain }}{% url 'activate' uidb64=uid token=token %}  
+{{protocol}}://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}  
 
 {%endif%}
 <br>
