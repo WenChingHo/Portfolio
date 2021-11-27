@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .navbar{
+        width:100%;
+        background-color: beige;
+    }
+    .navbar li {
+        display: inline-block;
+    }
+</style>
+
+<body>
+    {% include 'messages.html' %}
+    <nav class="navbar">
+        {% if not user.is_authenticated %}
+        <li class="nav-item">
+            <a href="{% url 'account:login' %}">
+                <div>Login</div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'account:register' %}">
+                <div>Register</div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard:index' %}">
+                <div>Dashboard</div>
+            </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a href="{% url 'dashboard:index' %}">
+                <div>Dashboard</div>
+            </a>
+        </li>
+        {% endif %}
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <footer>
+
+    </footer>
+</body>
+
+</html>
