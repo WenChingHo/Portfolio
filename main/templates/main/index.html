@@ -1,6 +1,208 @@
-{% extends 'main/base.html' %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
     {% block content %}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
         <section>
-            <p>This is my landing page.</p>
+            <div class="container">
+                <div class="content">
+                  <div class="envelope"></div>
+                  <div class="letter">
+                    <div class="body">
+                      <span class="close" onclick="event.stopPropagation(); closeCard()">x</span>
+                        <form class="message" method="post" >
+                            {% csrf_token %}
+                            {{contact_me_form|crispy}}
+                        </form>
+                    </div>
+                  </div>
+                  <div class="shadow"></div>
+                </div>
+              </div> 
         </section>
+
+        <style>:root {
+            --base: #5E5690;
+            --base-light: #7873A7;
+            --base-dark: #555184;
+            --shadow: #4F4C6B;
+            --letter: #d8d7e5;
+          }
+          
+          * {
+            border: 0;
+            margin: 0;
+            box-sizing: border-box;
+          }
+        
+          .container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          .content {
+            position: relative;
+            perspective: 600px;
+          }
+          
+          .shadow {
+            position: absolute;
+            width: 100px;
+            height: 1px;
+            background: transparent;
+            border-radius: 30%;
+            box-shadow: 50px 100px 10px 5px #eeeef3;
+          }
+          
+          .letter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 175px;
+            height: 73px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 15;
+            border-radius: 2px;
+            background: var(--letter);
+            box-shadow: 0px 1px 7px -2px var(--base);
+          }
+          .letter .body {
+            position: relative;
+            width:95%;
+            height:90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--base);
+          }
+          .letter .body .close {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            font-size: 30px;
+            font-family: "Manjari", sans-serif;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
+          .letter .body .message {
+            font-size: 20px;
+            font-weight: 900;
+            display:none;
+            transition:0s;
+            text-align: left;
+            font-family: "Great Vibes", cursive;
+          }
+          
+          .envelope {
+            position: relative;
+            width: 200px;
+            height: 110px;
+            background: linear-gradient(#cccbd7 0.5px, var(--base-light) 0.5px);
+            cursor: pointer;
+          }
+          
+          .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            border-top: 74px solid #7873A7;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            box-sizing: border-box;
+            z-index: 30;
+            transform-origin: top;
+          }
+          
+          .envelope::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 200px;
+            height: 110px;
+            z-index: 25;
+            background: linear-gradient(30deg, var(--base-dark) 47%, var(--shadow) 50%, var(--base) 50%) 100px 55px/100px 55px no-repeat, linear-gradient(31deg, var(--base) 49%, var(--shadow) 50%, transparent 50%) 0px 0px/100px 55px no-repeat, linear-gradient(150deg, var(--base) 50%, var(--shadow) 50%, var(--base-dark) 53%) 0px 55px/101px 55px no-repeat, linear-gradient(148.7deg, transparent 50%, var(--shadow) 50%, var(--base) 51%) 100px 0px/100px 55px no-repeat;
+          }</style>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/CSSRulePlugin.min.js"></script>
+          <script>
+              let t1 = gsap.timeline({ paused: true }); 
+let flap = CSSRulePlugin.getRule(".envelope:before"); 
+
+t1.to(flap, { 
+  duration: 0.35, 
+  cssRule: {
+    rotateX: 180
+  }
+})
+ .set(flap, {
+  cssRule: {
+    zIndex: 10
+  }
+})
+ .to('.letter', {
+  translateY: -200,
+  duration: 0.55, 
+  ease: "back.inOut(1.5)"
+})
+ .set('.letter', {
+  zIndex: 40
+})
+ .to('.letter', {
+  duration: .55,  
+  ease: "back.out(.4)",
+  translateY: -200,
+  translateX:-250,
+  translateZ: -100,
+  height:400,
+  width:300,
+})
+ .to('.message',{
+    display: 'block',
+    duration:0    
+ })
+;
+
+let t2 = gsap.timeline({ paused: true }); 
+t2.to('.shadow', {
+  delay: 1,
+  width: 350,
+  boxShadow: "-75px 150px 10px 5px #eeeef3",
+  ease: "back.out(.2)",
+  duration: .55
+}); 
+
+function openCard(e) {
+  t1.play();
+  t2.play();
+}
+
+function closeCard(e) {
+  t1.reverse();
+  t2.reverse();
+}
+
+$( function() {
+    $( ".container" ).draggable({
+        stop: function(event, ui) {
+        // event.toElement is the element that was responsible
+        // for triggering this event. The handle, in case of a draggable.
+        $( event.originalEvent.target ).one('click', function(e){ e.stopImmediatePropagation(); } );
+    }})});
+    $( ".container" ).click(e=>openCard(e));
+          </script>
+        
     {% endblock %}
+
+
+
+    
