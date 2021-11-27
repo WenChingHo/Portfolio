@@ -18,7 +18,7 @@ class EmailVerificationMiddleware(MiddlewareMixin):
     def process_request(self, request):
         # only check for email verification if user is logged in and not verified
         if request.user.is_authenticated and not request.user.is_superuser:
-            if not request.user.profile.email_confirmed:
+            if not request.user.profile.email_confirmed and not 'email_verification' in request.path:
                 # Override event in which user wants to login before they verify their emai
                 return redirect(reverse('account:email_verification'))
         return None
