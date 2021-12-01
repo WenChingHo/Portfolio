@@ -10,7 +10,7 @@ class Profile(models.Model):
     is_active = models.BooleanField(verbose_name='Active?', default=True)
     temp_code = models.CharField(max_length=70, verbose_name='Temporary Code', blank=True, null=True)
     temp_code_valid = models.DateTimeField(verbose_name='Temporary Code Valid Till', blank=True, null=True)
-    email_confirmed = models.BooleanField(verbose_name='Email Verified?', default=False)
+    email_confirmed = models.BooleanField(verbose_name='Email Verified?', default=True)
 
     def __str__(self):
         return self.user.email

@@ -63,6 +63,7 @@ class register(View):
             if form.is_valid():
                 user = form.save()
                 user.refresh_from_db()
+                user.profile.email_confirmed = False
                 user.save()
 
                 messages.add_message(request, messages.SUCCESS, 'A email_verification email has been sent.')
