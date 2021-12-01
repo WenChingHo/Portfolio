@@ -36,9 +36,10 @@ ALLOWED_HOSTS = ['edward8888.pythonanywhere.com', '*']
 INSTALLED_APPS = [
     'crispy_forms',
     #my apps----
-    'accounts',
-    'main',
-    'dashboard',
+    'apps.accounts',
+    'apps.main',
+    'apps.dashboard',
+    'apps.todoist',
     #-----------
     'django.contrib.admin',
     'django.contrib.auth',
@@ -160,6 +161,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

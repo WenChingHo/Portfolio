@@ -1,0 +1,696 @@
+
+
+ .selected{
+    background-color: rgba(173, 221, 255,0.6);
+    transition: all 0.15s linear;
+    box-shadow: 0px 15px 20px -20px black;
+}
+.day:active{
+    
+    box-shadow: inset 8px 10px 20px -25px black;
+}
+#calendar_month{
+    font-size:30px;
+    margin-bottom: 0.65rem;
+    text-align: center;
+    color: rgb(76, 75, 75);;
+}
+
+.calendarButton{
+    height:42px;
+    float: left;
+    background-color: #FCFBFC;
+    border: none;
+    font-size: 25px;
+    margin-left:-44px;
+    margin-top: -3px;
+    position:absolute;
+}
+.calendarButton:active{
+    margin-top: -2px;
+}
+/* WRAPPER */
+
+@media screen and (min-width: 850px) {
+    .wrapper {
+        grid-template-columns: 200px 5fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "sidebar content";
+    }
+}
+
+.container{
+    padding:20px;
+    margin:0 auto;
+    width:100vw;
+}
+
+/* SIDEBAR */
+html {
+    font-size: 18px;
+}
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+body {
+    grid-area: content;
+    padding: 30px 0px 30px 0px;
+}
+
+.sidebar {
+    height: 36rem;
+    width:100%;
+    display: flexbox;
+    align-items:right;
+    border-right: 2px solid rgba(172, 169, 169,0.4);
+
+}
+.tabs {
+    height : 4.2rem;
+    padding-top:2.2rem;
+    font-size: 1.1rem;
+    margin: 0rem 0.8rem 0rem 15%;
+    text-align:end;
+    width:80%;
+    border-bottom: 1px solid rgba(172, 169, 169,0.5);
+}
+.tabs:hover{
+    background:rgba(238, 237, 237, 0.5);
+    cursor:pointer
+}
+.tabs:active{
+    background:rgba(238, 237, 237, 0.85);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copyright {
+    text-align: center;
+}
+
+.avatar {
+    grid-area: avatar;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+.avatar__name {
+    text-align: center;
+    font-size: 50px;
+}
+
+.avatar__img>img {
+    width: 5rem;
+    margin-top: 2rem;
+    display: block;
+}
+
+.copyright {
+    grid-area: copyright;
+}
+
+.menu {
+    grid-area: menu;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.logo {
+    grid-area: logo;
+}
+
+.menu__text {
+    display: none;
+}
+
+@media screen and (min-width: 850px) {
+    .menu {
+        flex-direction: column;
+        align-items: normal;
+        justify-content: flex-start;
+    }
+
+    .menu__text {
+        display: inline-block;
+    }
+
+    .avatar {
+        flex-direction: column;
+    }
+
+    .avatar__name {
+        margin: 1em 0;
+    }
+
+    .reservation {
+        position: absolute;
+        height: 20px;
+        text-align: left;
+        margin: -20px;
+        padding-left: 12px;
+        padding-top: 14px;
+    }
+
+    .reservation a {
+        cursor: pointer;
+    }
+
+    .avatar__img>img {
+        border-radius: 50%;
+    }
+}
+
+
+
+
+/* MAIN */
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.calendar {
+    height: 600px;
+    width:100%
+}
+
+.calendar__week,
+.calendar__header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar__week {
+    grid-auto-rows: 110px;
+    text-align: right;
+}
+
+.calendar__header {
+    grid-auto-rows: 50px;
+    align-items: center;
+    text-align: center;
+}
+
+.calendar__day {
+    overflow-y: hidden;
+    transition: all 0.1s linear;
+}
+.uneditables{
+    
+    font-weight:bold;
+    border:0
+}
+
+
+
+/* COSMETIC STYLING */
+
+:root {
+    --red: #ED5454;
+}
+
+body {
+    font-family: Montserrat;
+    font-weight: 100;
+    color: #92999e;
+}
+
+sidebar {
+    left:0px;
+    width:400px;
+    position: absolute;
+    background-color: white;
+    box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    background-color: #FCFBFC;
+}
+
+.avatar__name {
+    font-size: 1.2rem;
+}
+
+.menu__item {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 16px 16px 16px 14px;
+    border-left: 4px solid transparent;
+    color: inherit;
+    text-decoration: none;
+    transition: color ease 0.3s;
+}
+
+.menu__item--active .menu__icon {
+    color: var(--red);
+}
+
+.menu__item--active .menu__text {
+    color: black;
+}
+
+.menu__item:hover {
+    color: black;
+}
+
+
+.menu__icon {
+    font-size: 1.3rem;
+}
+
+@media screen and (min-width: 850px) {
+    .menu__icon {
+        font-size: 0.9rem;
+        padding-right: 16px;
+    }
+
+    .menu__item--active {
+        border-left: 4px solid var(--red);
+        box-shadow: inset 10px 0px 17px -13px var(--red);
+    }
+}
+
+.copyright {
+    font-size: 0.7rem;
+    font-weight: 400;
+}
+
+.calendar {
+    background-color: white;
+    border: 1px solid #cdcdcd;
+}
+
+.calendar__week {
+    height: 200px
+}
+
+.calendar__header>div {
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: bold;
+
+}
+
+.calendar__day {
+    border: 1px solid #cdcdcd;
+    padding-right:0.4rem;
+    padding-top:0.4rem; 
+}
+
+.calendar_reserved {
+    background-color: rgba(255, 31, 30, 0.5);
+    color: black;
+
+}
+
+.calendar_available {
+    background-color: rgba(116, 215, 117, 0.6);
+    color: rgb(0, 0, 0);
+}
+
+.calendar__day:last-child {
+    border-right: 0;
+}
+
+.toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.toggle__option {
+    padding: 16px;
+    border: 1px solid #cdcdcd;
+    border-radius: 8px;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+.toggle__option:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.toggle__option:last-child {
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.toggle__option--selected {
+    border-color: white;
+    background-color: white;
+    color: var(--red);
+    font-weight: 500;
+    box-shadow: 1px 2px 30px -5px var(--red);
+}
+
+
+.modal-content{
+    height:90vh;
+}
+
+#Login{
+    width:25rem;
+    min-height: 30rem;
+    max-height: 35rem;
+    margin: 0 auto;
+    text-align: center;
+    color:black
+
+
+}
+#modalClose{
+    position:absolute;
+    font-size: 1.5rem;
+    margin: -0.13rem 0.5rem 0rem 0rem;
+    right:1rem;
+}
+#modalClose:hover{
+    color:black;
+    cursor: pointer;
+}
+
+.modal-open{
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+#modalCloseButton{
+    position:absolute;
+    bottom:1rem;
+    text-align: center;
+}
+.smallIndent{
+    margin-bottom: -0.1rem;
+}
+#loginUsername div{
+    position:absolute;
+    margin: auto;
+    display:none;
+    left:0;
+    right:0;
+    color:rgb(131, 130, 130)
+}
+
+#loginUsername:hover div{
+    display:block
+}
+
+select{
+    border: none;
+    text-align: center;
+    margin-left: 1rem;
+    height:1.3rem;
+    font-size: 1.15rem;
+}
+select:focus{
+    outline:0;
+    border:none;
+}
+
+.modalTitles{
+    font-size: 1.37rem;
+}
+.detailedTaskDiv{
+    position:absolute;
+    height:30rem;
+    width:20rem;
+    top:10%;
+    left:70%;
+    border: 1px solid black;
+    display: none;
+    background-color: rgb(238, 238, 238);
+    overflow-y: scroll;
+    text-align: left;
+}
+
+.taskDots{
+    padding-left:10%;
+    padding-right: 7%;
+    font-size: 1.5rem;
+    justify-content: right;
+    min-height: 0rem;
+    width:95%;
+    overflow-y:hidden ;
+    white-space: nowrap;
+    margin-top: -0.8rem;
+    padding-bottom: 0!important;
+}
+
+.todoDots{
+    color: rgb(65, 110, 194)   ;
+    width:1rem;
+    height:0.3rem;
+    display: inline-block;
+    position: relative;
+}
+.completedDots{
+    color: rgb(195, 71, 71)   ;
+    width:1rem;
+    height:0.3rem;
+    display: inline-block;
+    position: relative;
+}
+.todoDotsDescription{
+    position:fixed;
+    max-width:30rem;
+    padding: 0.5rem 1rem 0 1rem;
+    font-size: 1rem;
+    border: 1px solid rgba(73, 81, 167, 0.117); 
+    background: rgba(255, 255, 255,0.2);
+    mix-blend-mode: normal;
+    backdrop-filter: blur(7.5px);
+    box-shadow: 0px 20px 13px -22px rgba(73, 81, 167, 0.567);
+
+    visibility: hidden;
+    display: none;
+    text-align: left;
+
+    z-index: 11;
+    
+}
+
+.show{
+    visibility: visible;
+    display: block !important;
+    transition: all 1.5s;
+}
+
+
+
+
+
+
+
+* {
+    
+    font-family: "Perpetua";
+  }
+  
+ 
+  
+  .cardTop {
+    width: 497px;
+    height: 300px;
+    background: #fac24f;
+    border-radius: 20px;
+    display: flex;
+
+    align-items: flex-end;
+  }
+  .floatingTime{
+      position: absolute;
+      left:34px;
+      padding-top:2px;
+      font-size: 0.77rem;
+      font-weight:550;
+        color:rgba(112, 112, 112, 0.9);
+
+  }
+  .timeline {
+    width: 355px;
+    height: 30rem;
+    background: #ecf1f511;
+    mix-blend-mode: normal;
+    backdrop-filter: blur(25px);
+    overflow-y:scroll;
+    position: absolute;
+    top: 144px;
+    margin-left: 71px;
+    box-shadow: 0px 20px 53px -22px rgba(73, 81, 167, 0.567);
+    border-radius: 10px;
+    border-top: 3px solid rgba(73, 81, 167, 0.117);
+    transition:0.5s all
+  }
+  .timeline h3 {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 30px;
+    color: #ffffff;
+    margin-left: 66px;
+    margin-top: 40px;
+  }
+  .timeline label {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+    /* identical to box height */
+    margin-left: 66px;
+    margin-top: 10px;
+    color: #ffffff;
+  }
+  .timeline .box {
+    width: 100%;
+    margin-top: 99.5px;
+  }
+  .timeline .box .container {
+    width: 100%;
+    height: 357px;
+    display: flex;
+  }
+  .timeline .box .container .lines {
+    margin-left: 25px;
+    margin-top: 6px;
+  }
+  .cdot{
+      background: rgb(195, 71, 71)!important;
+  }
+  .timeline .box .container .lines .dot {
+    width: 14px;
+    height: 14.5px;
+    background:  rgb(65, 110, 194) ;
+    backdrop-filter: blur(55px);
+    border-radius: 7px;
+    margin-left: -3px;
+    z-index:999;
+  }
+  .timeline .box .container .lines .line {
+    height: 110px;
+    width: 2px;
+    background: #d1d6e6;
+    margin-left: 3px;
+  }
+  .timeline .box .container .cards {
+    margin-left: 12px;
+    transform: translateY(-50px);
+    transition: all 0.5s;
+  }
+  .timeline .box .container .cards .card {
+    width: 249px;
+    height: 6rem;
+    padding-top: 25px;
+    padding-bottom:10px;
+    background: #ffffff;
+    box-shadow: 0 2px 2px 0 #eeeeee40;
+    border-radius: 10px;
+    box-shadow: 0px 16px 15px -10px rgba(105, 96, 215, 0.0944602);
+    margin-bottom: 10px;
+    overflow-y: scroll;
+    display: inline-block;
+  }
+  .halfdiv{
+        position: fixed;
+        border-radius: 10px;
+        width: 47.5%;
+        height: 6rem;
+        margin-top:-25px;
+
+  }
+  .halfdiv:hover{
+      background: rgba(217, 217, 217, 0.1);
+      mix-blend-mode: normal;
+    backdrop-filter: blur(0.25px);
+  }
+  .halfdiv:hover p{
+    display:block!important;
+    color:rgb(180, 180, 180)
+}
+  .timeline .box .container .cards .card.mid {
+    height: 71px;
+  }
+  .timeline .box .container .cards .card h4 {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 19px;
+    margin-left: 25px;
+    margin-bottom: 5px;
+    color: #2b2862;
+  }
+  .timeline .box .container .cards .card p {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+    color: #2b2862;
+    margin-left: 25px;
+  }
+  .timeline .box .bottom {
+    width: 100%;
+    height: 107px;
+    background: #fff;
+    box-shadow: 0 0 2px #eeeeee50;
+    padding-top: 45px;
+  }
+  .timeline .box .bottom .btn {
+    width: 249px;
+    height: 62px;
+    background: #ffffff40;
+    mix-blend-mode: normal;
+    cursor: pointer;
+    border: 1px solid #8260d780;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 19px;
+    color: #2b2862;
+    margin-left: 53px;
+    transition: 0.3s;
+    background: #2b2862;
+    color: #fff;
+    border-color: #2b2862;
+  }
+  .timeline .box .bottom .btn:hover {
+    transform: scale(1.03);
+  }
+.dotTitle{
+    font-weight: bold;
+    margin-bottom: -0.2rem;
+}
+
+.hidden{
+    display:none
+}
+
+.edittask:hover p{
+    display:block!important;
+}
+.float{
+    float:right;
+    margin-top:-0.7rem;
+    margin-right: 0.5rem;
+}
