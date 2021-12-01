@@ -16,18 +16,20 @@ class API(View):
         todoistApi = TodoistAPI(todoistApi) 
         month = int(month)+1
         if "error_code" in todoistApi.sync().keys():
-            return Http404
+            JsonResponse({"user":todoistApi.state.get("user"), 
+                "tasks" :[], 
+                "completed": []})
         # Get Tasks
         items = []
 
         for i in todoistApi.state["items"]:
 
-            if i["due"] and i["due"].get("date")[5:7] == month and i["due"].get("date")[:4] == year and i["checked"]==0:
+            if i["due"] and i["due"].get("date")[5:7] == str(month) and i["due"].get("date")[:4] == year and i["checked"]==0:
                 items.append({
                     "content":i["content"],
                     "due": i["due"].get("date"),
                     "description": i["description"],
-                    "id" :i["id"],
+                    "id" :0,
                     "type": "task"
                 })
                 #strDate = i["due"].get("date") + "T00:00:00" if len(i["due"].get("date")) ==10 else i["due"].get("date")
@@ -35,16 +37,19 @@ class API(View):
 
         # Get Completed Tasks
         today = datetime.now()
-        _ , daysInMonth = calendar.monthrange(today.year, int(month))
+        _ , daysInMonth = calendar.monthrange(today.year, month)
 
         completed_tasks = todoistApi.completed.get_all(
             since=f'{today.year}-{str(month).zfill(2)}-01T00:00',
             until=f'{today.year}-{str(month).zfill(2)}-{daysInMonth}T00:00'
             )['items']
+
         for item in completed_tasks: 
             item['type']='completed'
             item["due"] = item.pop("completed_date")
-        print(items)
+        print({"user":todoistApi.state.get("user"), 
+                "tasks" :items, 
+                "completed": completed_tasks})
         return JsonResponse({"user":todoistApi.state.get("user"), 
                 "tasks" :items, 
                 "completed": completed_tasks})

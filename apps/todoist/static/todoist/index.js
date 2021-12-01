@@ -283,7 +283,7 @@ class TaskTimeline extends React.Component {
     }
     render() {
 
-        let selectedCell = document.getElementById(`day_${this.props.dateSelected}`)
+        let selectedCell = document.getElementById(`day_${this.props.dateSelected}`) || null
         let position;
 
         if (selectedCell) {
@@ -292,9 +292,9 @@ class TaskTimeline extends React.Component {
         var todayTask = this.props.tasks[this.props.dateSelected]
         var todayComplete = this.props.completed[this.props.dateSelected]
         return (
-            <div style={selectedCell && this.props.user !== "Guest" ? { //Show when selected and if not "Guest"
-                left: position.x + position.width / 2 >= document.body.clientWidth - 600 ? position.x - position.width / 2 - 300 : position.x + position.width / 2,
-                bottom: position.y
+            <div style={ selectedCell !=null ? { //Show when selected and if not "Guest"
+                left: position.x + position.width / 2 >= document.body.clientWidth - 650 ? position.x - position.width / 2 - 580 : position.x + position.width / 2-250,
+                bottom: position.y+30
             } : { display: "none" }} className="timeline">
                 <div className="box">
                     <div className="container">
@@ -450,7 +450,7 @@ class DottedTasks extends React.Component {
                                     key={i}
                                     style={{ top: this.state.top + 30, left: this.state.left }}
                                     className={"todoDotsDescription" + (this.state.selectedCompleted === i ? " show" : "")}>
-                                    <p class="dotTitle">{task.content}</p>
+                                    <p className="dotTitle">{task.content}</p>
                                     <p>{"Finished on: " + task["due"].slice(11, 16)}</p>
                                 </div>
                             </div>
@@ -479,7 +479,7 @@ class DottedTasks extends React.Component {
         )
     }
 }
-
+var DEFAULT_TASKS = {'user': {'auto_reminder': 30, 'business_account_id': null, 'daily_goal': 5, 'date_format': 0, 'dateist_inline_disabled': false, 'dateist_lang': null, 'days_off': [6, 7], 'default_reminder': 'email', 'email': '8ky9nds74g@privaterelay.appleid.com', 'features': {'beta': 0, 'dateist_inline_disabled': false, 'dateist_lang': null, 'has_push_reminders': true, 'karma_disabled': false, 'karma_vacation': false, 'restriction': 0}, 'full_name': 'Edward Ho', 'id': 35533031, 'image_id': null, 'inbox_project': 2273602810, 'is_biz_admin': false, 'is_premium': false, 'join_date': '2021-09-13T02:41:34Z', 'karma': 3990.0, 'karma_trend': 'up', 'lang': 'en', 'mobile_host': null, 'mobile_number': null, 'next_week': 1, 'premium_until': null, 'share_limit': 25, 'sort_order': 0, 'start_day': 1, 'start_page': 'overdue, today', 'theme': 11, 'time_format': 0, 'token': 'a51b335beebba7e156b26408b85a86c7c93b0016', 'tz_info': {'gmt_string': '+08:00', 'hours': 8, 'is_dst': 0, 'minutes': 0, 'timezone': 'Asia/Taipei'}, 'unique_prefix': 5, 'websocket_url': 'wss://ws.todoist.com/ws?token=MmQ2ODBmNjRiMWJlOTNhNVhIpYob0kEGEta_uRTrJ2Y', 'weekly_goal': 30}, 'tasks': [{'content': '30 min typeracer', 'due': '2021-11-16', 'description': '[TypeRacer - the global typing competition](https://play.typeracer.com/)', 'id': 0, 'type': 'task'}, {'content': 'Calendar App: Implement add and delete', 'due': '2021-11-03', 'description': '', 'id': 0, 'type': 'task'}, {'content': 'Leetcode x2', 'due': '2021-11-20', 'description': '', 'id': 0, 'type': 'task'}, {'content': 'Startup research', 'due': '2021-11-29', 'description': '', 'id': 0, 'type': 'task'}, {'content': 'Apply 5 jobs', 'due': '2021-11-30', 'description': '', 'id': 0, 'type': 'task'}], 'completed': [{'content': 'Apply 5 jobs', 'id': 4956213263, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5341817417, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-29T13:45:35Z'}, {'content': 'check:', 'id': 4956213068, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5307984231, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-29T13:45:31Z'}, {'content': 'Apply 5 jobs', 'id': 4953761008, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5341817417, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-28T14:42:16Z'}, {'content': 'Udemy Web Dev Section 1-3', 'id': 4953760897, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5367989607, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-28T14:42:10Z'}, {'content': 'DJ4E Course 3 Week 5', 'id': 4953759905, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5367988192, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-28T14:41:38Z'}, {'content': 'check:', 'id': 4953759676, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5307984231, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-28T14:41:31Z'}, {'content': 'reserve for lunch', 'id': 4953758760, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5361345074, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-28T14:41:00Z'}, {'content': 'Startup research', 'id': 4953758672, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334158867, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-28T14:40:56Z'}, {'content': 'Exam', 'id': 4953758601, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5345097042, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-28T14:40:53Z'}, {'content': 'Leetcode x2', 'id': 4933280341, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334158003, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-19T12:11:42Z'}, {'content': 'Startup research', 'id': 4933280327, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334158867, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-19T12:11:42Z'}, {'content': 'Message freelancer', 'id': 4933280390, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5344338110, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-19T12:11:41Z'}, {'content': 'Apply 5 jobs', 'id': 4933280275, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5341817417, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-19T12:11:40Z'}, {'content': 'check:', 'id': 4931114113, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5307984231, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-18T15:17:30Z'}, {'content': 'Leetcode x2', 'id': 4931114097, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334158003, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-18T15:17:29Z'}, {'content': 'Apply 5 jobs', 'id': 4931114022, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5341817417, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-18T15:17:27Z'}, {'content': 'Startup research', 'id': 4931112853, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334158867, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-18T15:17:01Z'}, {'content': 'Apply 5 jobs', 'id': 4924940309, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5333515263, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-16T10:01:16Z'}, {'content': 'Startup research', 'id': 4924826578, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334158867, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-16T09:02:45Z'}, {'content': 'Django for everyone W2', 'id': 4924823252, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334153750, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-16T09:00:58Z'}, {'content': 'Django for everyone W1', 'id': 4924823175, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5334153316, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-16T09:00:56Z'}, {'content': '30 min typeracer', 'id': 4922388559, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5228014792, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-15T12:58:41Z'}, {'content': 'apply 5 jobs', 'id': 4922388655, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5331401211, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-15T12:58:40Z'}, {'content': 'Update Resume', 'id': 4922388543, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5331170553, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-15T12:58:37Z'}, {'content': '30 min typeracer', 'id': 4919584246, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5228014792, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-14T08:06:37Z'}, {'content': '新創圓夢網 寄企劃書草稿', 'id': 4908464948, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5311640110, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-09T15:32:13Z'}, {'content': '30 min typeracer', 'id': 4908464029, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5228014792, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-09T15:31:54Z'}, {'content': 'Lean Business Model v1', 'id': 4908358705, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5314637600, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-09T14:55:09Z'}, {'content': 'AMEX payment', 'id': 4908358598, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5314634218, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-09T14:55:07Z'}, {'content': 'Fix Resume', 'id': 4905821168, 'meta_data': null, 'project_id': 2273602810, 'task_id': 5306043618, 'user_id': 35533031, 'type': 'completed', 'due': '2021-11-08T17:02:00Z'}]}
 class Calendar extends React.Component {
     constructor(props) {
         super(props)
@@ -503,9 +503,12 @@ class Calendar extends React.Component {
             year: year,
             month: month,
             day: day,
+            tasks: this.memoizeTasks(DEFAULT_TASKS.tasks),
+            completed: this.memoizeTasks(DEFAULT_TASKS.completed),
             monthStartWeekDay: new Date(`${year}-${month + 1}-01`).getDay() - 1,
             dayInMonth: new Date(year, month, 0).getDate(),
         })
+        if (this.state.username !=="Guest")
         this.state.APIToken && this.fetchMonthlyData(this.state.APIToken, month, year)
     }
 
@@ -513,7 +516,7 @@ class Calendar extends React.Component {
         this.setState({
             dataLoaded: false
         })
-        return fetch(`http://127.0.0.1:8000/todoist/api/${APItoken}/${month}/${year}`) //Else connect via APItoken
+        return fetch(`/todoist/api/${APItoken}/${month}/${year}`) //Else connect via APItoken
             .then(res => res.json())
             .then((res) => {
                 localStorage.setItem(res.user.full_name, APItoken)
