@@ -13,7 +13,6 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_text
 
 from django.utils import timezone
-from datetime import timedelta
 from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -31,6 +30,7 @@ class login(View):
     def post(self, request):
         form = LoginForm(request.POST)
         context = {'form':form}
+        username = None
         if form.is_valid():
             email = form.cleaned_data['email']
             if User.objects.filter(email=email).exists():
@@ -49,7 +49,7 @@ class login(View):
         else:
             # No backend authenticated the credentials
             messages.error(request, "invalid email or password. Try again!")
-            return render(request, 'accounts/login.html', context)
+        return render(request, 'accounts/login.html', context)
  
 class register(View):
     def get(self, request):

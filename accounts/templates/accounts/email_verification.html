@@ -1,18 +1,26 @@
-{% extends "accounts/base.html" %}
-
+{% extends "base.html" %}
 {% block content %}
-{% include 'messages.html' %}
-<div style="margin: auto; width:15rem; text-align: center;">
-    <div class="container py-5">
-        <h1>Verification Page</h1>
-        <p>Please verify your email.</p>
-        <form action="{% url 'account:email_verification' %}" method="post">
-            {% csrf_token %}
-            <div class="form-row">
-                <button type="submit" class="btn btn-primary btn-block">Re-send Verification Email</button>
+<section style="padding-top:100px!important;" class="project-section">
+    <div class="container">
+        <div class="row">
+            <div class=" login_container">
+                <div class="col-sm-12 col-md-5 col-lg-5 register_div">
+                    <div class="container py-5">
+                        <h1>Verification Page</h1>
+                        <p>Please verify your email. The activation link will be valid for 10 minutes.</p>
+                        <form action="{% url 'account:email_verification' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <button stye="width:100px!important" type="submit" class="btn btn-primary">Re-send Verification
+                                    Email</button>
 
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </form>
-</div>
-</div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

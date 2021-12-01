@@ -6,7 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src=""></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
     <style>
         body {
             width: 100%;
@@ -17,7 +20,9 @@
             width: 100%;
             height: 100%;
         }
-
+        .error{
+            color:red
+        }
         .navbar-transparent {
             background-color: transparent;
             background: transparent;
@@ -34,8 +39,15 @@
 
             .top-nav-collapse {
                 padding: 0;
+               
             }
         }
+
+        
+          
+            
+
+
 
         /* Demo Sections - You can use these as guides or delete them - the scroller will work with any sort of height, fixed, undefined, or percentage based.
 The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children 
@@ -43,36 +55,114 @@ of those sections to manage the look and feel of the site. */
 
         .intro-section {
             height: 100%;
-            padding-top: 150px;
+            padding-top: 175px;
             text-align: center;
             background: #fff;
         }
 
+        .row {
+            margin: 0 auto;
+        }
+
         .about-section {
             height: 100%;
-            padding-top: 150px;
+            padding-top: 50px;
             text-align: center;
             background: #eee;
         }
 
-        .services-section {
+        .project-section {
             height: 100%;
-            padding-top: 150px;
+            padding-top: 50px;
             text-align: center;
             background: #fff;
         }
 
         .contact-section {
             height: 100%;
-            padding-top: 150px;
+            padding-top: 50px;
             text-align: center;
             background: #eee;
+        }
+
+        body {
+            height: 100vh;
+        }
+
+        .rotate-shadows {
+            width: 260px;
+            height: 260px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            text-align: center;
+            vertical-align: middle;
+            top: 50%;
+            left: 50%;
+        }
+
+        .rotate-shadows:after,
+        .rotate-shadows:before {
+            content: "";
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: center center;
+        }
+
+        .rotate-shadows:before {
+            box-shadow: inset 0 30px 0 rgba(0, 250, 250, 0.6),
+                inset 30px 0 0 rgba(0, 200, 200, 0.6),
+                inset 0 -30px 0 rgba(0, 150, 200, 0.6),
+                inset -30px 0 0 rgba(0, 200, 250, 0.6);
+            animation: rotate-before 2s -0.5s linear infinite;
+        }
+
+        .rotate-shadows:after {
+            box-shadow: inset 0 30px 0 rgba(250, 250, 0, 0.6),
+                inset 30px 0 0 rgba(250, 200, 0, 0.6),
+                inset 0 -30px 0 rgba(250, 150, 0, 0.6),
+                inset -30px 0 0 rgba(250, 100, 0, 0.6);
+            animation: rotate-after 2s -0.5s linear infinite;
+        }
+
+        @keyframes rotate-after {
+            0% {
+                transform: rotateZ(0deg) scaleX(1) scaleY(1);
+            }
+
+            50% {
+                transform: rotateZ(180deg) scaleX(0.82) scaleY(0.95);
+            }
+
+            100% {
+                transform: rotateZ(360deg) scaleX(1) scaleY(1);
+            }
+        }
+
+        @keyframes rotate-before {
+            0% {
+                transform: rotateZ(0deg) scaleX(1) scaleY(1);
+            }
+
+            50% {
+                transform: rotateZ(-180deg) scaleX(0.95) scaleY(0.85);
+            }
+
+            100% {
+                transform: rotateZ(-360deg) scaleX(1) scaleY(1);
+            }
         }
     </style>
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-
+    {% include 'messages.html' %}
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-transparent navbar-fixed-top" role="navigation">
         <div class="container">
@@ -83,41 +173,46 @@ of those sections to manage the look and feel of the site. */
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {% include 'messages.html' %}
-                {% if not user.is_authenticated %}
-                <ul class="nav navbar-nav navbar-left">
-                    <li class="-mb-px mr-1">
-                        <a class="page-scroll" href="{% url 'main:index' %}">Main</a>
-                    </li>
-                    <li class="mr-1">
-                        <a class="page-scroll" href="{% url 'dashboard:index' %}">Dashboard</a>
-                    </li>
-                    <li class="mr-1">
-                        <a class="page-scroll" href="{% url 'account:register' %}">Register</a>
-                    </li>
-                    <li class="mr-1">
-                        <a class="page-scroll" href="{% url 'account:login' %}">Login</a>
-                    </li>
-                </ul>
-                {% else %}
-                <ul class="flex border-b">
-                    <li class="-mb-px mr-1">
-                        <a class="page-scroll" href="{% url 'dashboard:index' %}">Dashboard</a>
-                    </li>
-                    <li class="page-scroll-1">
-                        <a href="{% url 'account:log_out' %}">Logout</a>
-                    </li>
-                </ul>
-
-                {% endif %}
-
 
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
+               
+                <ul class="nav navbar-nav navbar-left">
+                    {% if not user.is_authenticated %}
+                    <li class="page-scroll">
+                        <a href="{% url 'account:login' %}">
+                            Login
+                        </a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="{% url 'account:register' %}">
+                            Register
+                        </a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="{% url 'dashboard:index' %}">
+                            Dashboard
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-scroll">
+                        <a href="{% url 'dashboard:index' %}">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li >
+                        <a class="page-scroll" href="{% url 'account:log_out' %}">
+                            Logout
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    {% if request.path == "/" %}
                     <li class="hidden">
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
@@ -125,13 +220,16 @@ of those sections to manage the look and feel of the site. */
                         <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Services</a>
+                        <a class="page-scroll" href="#project">Project</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
-                        {% block content %}
-                        {% endblock %}
                     </li>
+                    {% else %}
+                    <li>
+                        <a class="page-scroll" href="{% url 'main:index' %}">Home</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -140,96 +238,56 @@ of those sections to manage the look and feel of the site. */
     </nav>
 
     <!-- Intro Section -->
-    <section id="intro" class="intro-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>One Page Website</h1>
-                    <p>I like clean code and I cannot lie</p>
-                    <a class="btn btn-default page-scroll" href="#about">Click Me to Scroll Down!</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- About Section -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>About Section</h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>Services Section</h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>Contact Section</h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    {% block content %}
+    {% endblock %}
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script>
-    //jQuery to collapse the navbar on scroll
-    var header_height = $('.navbar').height(),
-        intro_height = $('.intro-section').height(),
-        offset_val = intro_height + header_height;
-    $(window).scroll(function () {
-        var scroll_top = $(window).scrollTop();
-        if (scroll_top >= offset_val) {
-            $(".navbar-fixed-top").addClass("top-nav-collapse");
-            $(".navbar-fixed-top").removeClass("navbar-transparent");
-        } else {
-            $(".navbar-fixed-top").removeClass("top-nav-collapse");
-            $(".navbar-fixed-top").addClass("navbar-transparent");
-        }
-    });
 
-    //jQuery for page scrolling feature - requires jQuery Easing plugin
-    $(function () {
-        $('a.page-scroll').bind('click', function (event) {
-            var $anchor = $(this);
-            $('html, body').stop().animate({
-                scrollTop: $($anchor.attr('href')).offset().top
-            }, 1500, 'easeInOutExpo');
-            event.preventDefault();
+    $(document).ready(function () {
+        //your code here
+
+        //jQuery to collapse the navbar on scroll
+        var header_height = $('.navbar').height(),
+            intro_height = $('.intro-section').height(),
+            offset_val = intro_height + header_height;
+        $(window).scroll(function () {
+            var scroll_top = $(window).scrollTop();
+            if (scroll_top >= offset_val) {
+                $(".navbar-fixed-top").addClass("top-nav-collapse");
+                $(".navbar-fixed-top").removeClass("navbar-transparent");
+            } else {
+                $(".navbar-fixed-top").removeClass("top-nav-collapse");
+                $(".navbar-fixed-top").addClass("navbar-transparent");
+            }
         });
+
+        //jQuery for page scrolling feature - requires jQuery Easing plugin
+        $(function () {
+            $('a.page-scroll').bind('click', function (event) {
+                var $anchor = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top
+                }, 1500, 'easeInOutExpo');
+                event.preventDefault();
+            });
+        });
+        
     });
-
-
-// //jQuery to collapse the navbar on scroll
-// $(window).scroll(function() {
-//     if ($(".navbar").offset().top > 100) {
-//         $(".navbar-fixed-top").addClass("top-nav-collapse");
-//             $(".navbar-fixed-top").removeClass("navbar-transparent");
-//     } else {
-//         $(".navbar-fixed-top").removeClass("top-nav-collapse");
-//       $(".navbar-fixed-top").addClass("navbar-transparent");
-//     }
-// });
+//jQuery to collapse the navbar on scroll
+ $(window).scroll(function() {
+         if ($(".navbar").offset().top > 100) {
+         $(".navbar-fixed-top").addClass("top-nav-collapse");
+             $(".navbar-fixed-top").removeClass("navbar-transparent");
+     } else {
+         $(".navbar-fixed-top").removeClass("top-nav-collapse");
+       $(".navbar-fixed-top").addClass("navbar-transparent");
+     }
+ });
 </script>
 
 </html>

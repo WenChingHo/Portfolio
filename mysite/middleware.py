@@ -17,13 +17,12 @@ class EmailVerificationMiddleware(MiddlewareMixin):
     """
     def process_request(self, request):
 
-        # skip this middleware if heading toward these pages
-        WHITE_LIST = ('email_verification','activate')
-        if not any(path in request.path for path in WHITE_LIST): return None
-        
-        # only check for email verification if user is logged in and not verified
-        if request.user.is_authenticated and not request.user.is_superuser:
-            if not request.user.profile.email_confirmed:
-                # Override event in which user wants to login before they verify their emai
-                return redirect(reverse('account:email_verification'))
+        if request.path =='/dashboard/':
+            # only check for email verification if user is logged in and not verified
+            if request.user.is_authenticated and not request.user.is_superuser:
+                if not request.user.profile.email_confirmed:
+                    # Override event in which user wants to login before they verify their emai
+                    messages.add_message(request, messages.WARNING, 'Please verifiy your email before accessing the dashboard!')
+                    print(request.path)
+                    return redirect(reverse('account:email_verification'))
         return None

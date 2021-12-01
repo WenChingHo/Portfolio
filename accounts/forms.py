@@ -32,12 +32,12 @@ class ResetFormPage(forms.Form):
     password1 = forms.CharField(
         label="Password",
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text=custom_password_help_text_html(),
     )
     password2 = forms.CharField(
         label="Password confirmation",
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
         help_text="Enter the same password as before, for verification.",
     )
@@ -46,29 +46,48 @@ class ResetFormPage(forms.Form):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                 'size':12,
+                 'placeholder':'Email',
+            })
+    )
     password = forms.CharField(
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'})
-    )
+        widget=forms.PasswordInput(
+            attrs={
+                'autocomplete': 'new-password',
+                 'size':12,
+                 'placeholder':'Password',
+            })
+        )
+    def clean_email(self):
+        """
+        Override clean_email to ensure emails saved in the User model are unique.
+        """
+        email = self.cleaned_data['email']
+        if not User.objects.filter(email=email).exists():
+            raise ValidationError("No account registered with this email")
+        return email
        
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(
         max_length=254, 
         help_text='Required. Please inform a valid email address.', 
-        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        widget=forms.EmailInput(),
         required=True
     )
     password1 = forms.CharField(
         label="Password",
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text=custom_password_help_text_html(),
     )
     password2 = forms.CharField(
         label="Password confirmation",
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
         help_text="Enter the same password as before, for verification.",
     )
@@ -77,7 +96,7 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(),
         }
 
     def clean_email(self):

@@ -1,22 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-   
-</head>
-<body>
-    {% include 'messages.html' %}
+{% extends 'base.html' %}
 
-    {{ user.get_full_name }}
-    {{ user.username }}
-    {{ user.email }}
-    {{ user.last_login }}
+{% block content %}
+
+
+   
+<section class="project-section">
+    <h1>Didn't think anyone would come in here, so I haven't do anything here.</h1>
+    <h1>Welcome, {% firstof user.get_full_name user.username%}</h1>
+    <h4>Name: {{ user.get_full_name  }}</h4>
+    <h4>Username: {{ user.username }} </h4>
+    <h4>Email: {{ user.email }}</h4>
+    <h4>Last Logged-in: {{ user.last_login }}</h4>
+    
 
     <a href="{% url 'account:log_out' %}">logout</a>
-</body>
-</html>
+</section>
 
+<style>
+    .project-section{
+        margin-top:50px
+    }
+</style>
 
+{%endblock%}

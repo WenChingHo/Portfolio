@@ -1,30 +1,173 @@
-{% extends "accounts/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 {% include 'messages.html' %}
-<div style="margin: auto; width:26rem; text-align: center;">
-    <div class="container py-5">
-        <h1>Register</h1>
-        <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
-            action="{% url 'account:register' %}" method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-            <div style="margin:0.8rem; padding-left: 0.7rem;" class="form-group">
-                <label class="form-label" for="first_name">{{ field.label_tag }}</label>
-                <div class="input-group input-group-merge">{{ field }}</div>
-                {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
-                {% endif %}
-                {% for error in field.errors %}
-                <br><small class="error">{{ error }}</small>
-                {% endfor %}
+
+<section class="project-section">
+    <div class="container">
+        <div class="row">
+
+            <div class=" login_container">
+                <div class="col-sm-12 col-md-5 col-lg-5 register_div">
+                    <h1>Register</h1>
+                    <hr>
+                    <form action="{% url 'account:register' %}" method="POST">
+                        <div>
+                            {% csrf_token %}
+
+                            {% for field in form %}
+                            <h5>{{field.label}}:*<h5>
+                                    <div class="form__input-field">
+                                        <i class="fas fa-user"></i>
+                                        {{field}}
+                                    </div>
+
+                                    {% for error in field.errors %}
+                                    <small class="error">{{ error }}</small><br>
+                                    {% endfor %}
+
+                                    {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                    {% endif %}
+
+                                    
+                                    {% endfor %}
+
+
+                                    <div><br>
+                                        <button class="btn btn-transparent" id="sign-in-btn">
+                                            Register
+                                        </button>
+                                    </div>
+                                    <br>
+
+
+                                    <p class="text-center">If you already have an accounts, <a
+                                            href="{% url 'account:login' %}">login</a> instead.</p>
+                    </form>
+                </div>
             </div>
-            {% endfor %}
-            <div style="margin: 0.6rem 0 1rem 10.2rem;">
-                <button style="text-align: center !important;" class="btn btn-primary" type="submit">Register</button>
+            <div class="col-sm-12 col-md-7 col-lg-7 ">
+                <img id="side_img"
+                    src="https://image.freepik.com/free-vector/modern-online-registration-compositio_23-2147993862.jpg"
+                    alt="" />
+                <a href='https://www.freepik.com/vectors/box'>Box vector created by freepik - www.freepik.com</a>
             </div>
-        </form>
-        <p class="text-center">If you already have an accounts, <a href="{% url 'account:login' %}">login</a> instead.</p>
+        </div>
+
     </div>
-</div>
+    </div>
+    </div>
+</section>
+<style>
+    @media only screen and (max-width: 991.98px) {
+        ul {
+            text-align: left;
+
+        }
+    }
+
+    ul {
+        text-align: center;
+        list-style-type: none;
+        margin-left: -40px;
+    }
+
+    .register_div {
+        padding-top: 30px;
+    }
+
+    .form {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 50%;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+        z-index: 5;
+        -webkit-transition: 1s 0.7s ease-in-out;
+        transition: 1s 0.7s ease-in-out;
+    }
+
+    .form__title {
+        font-size: 2.2rem;
+        color: #444;
+        margin-bottom: 10px;
+    }
+
+    .form__input-field {
+        max-width: 280px;
+        width: 100%;
+        height: 3.937rem;
+        background-color: #f0f0f0;
+        margin: auto;
+        margin-bottom: 5px;
+        font-size: 20px;
+        border-radius: 3.437rem;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: 15% 85%;
+        grid-template-columns: 15% 85%;
+        padding: 0 0.4rem;
+    }
+
+    .form__input-field i {
+        text-align: center;
+        line-height: 3.937rem;
+        color: #acacac;
+        font-size: 1.3rem;
+    }
+
+    .form__input-field input {
+        background: none;
+        outline: none;
+        border: none;
+        line-height: 1;
+        font-weight: 600;
+        font-size: 1.3rem;
+        color: #333;
+        border-radius: inherit;
+    }
+
+    .form__input-field input::-webkit-input-placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__input-field input:-ms-input-placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__input-field input::-ms-input-placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__input-field input::placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__submit {
+        width: 9.375rem;
+        height: 3.0625rem;
+        border: none;
+        outline: none;
+        border-radius: 3.0625rem;
+        cursor: pointer;
+        background-color: #b538d1;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin: 10px 0;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+    }
+</style>
+
 {% endblock %}

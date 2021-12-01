@@ -1,85 +1,133 @@
-
-    <title>Login</title>
-
-</head>
-
-<body>
-
-</body>
-
-</html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
 {% load crispy_forms_tags %}
 {% load socialaccount %}
+<script src="https://kit.fontawesome.com/1788c719dd.js" crossorigin="anonymous"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<div style="margin: auto; width:15rem; text-align: center;">
-    <div class="container py-5">
-        <h1>Login</h1>
-        <form style="text-align:left; padding-top:5px; border:1px solid black; border-radius: 5%;"
-            action="{% url 'account:login' %}" method="POST">
-            <div style="margin-left: 2.2rem;">
-                {% csrf_token %}
-                {% for field in form%}
 
-                <div style='margin-top:0.3rem'>{{field.label}}: </div>
-                <div style='margin-bottom:0.5rem'>{{field}} </div>
-                {%endfor%}
-                {%if messages%}
-                {%for message in messages%}
-                <!-- <p>{{message}}</p> -->
-                <div class="alert alert-dismissible bg-primary text-white border-0 fade show" role="danger">
-                    <small>{{message}}</small>
-                </div>
-                {%endfor%}
-                {%endif%}
+<section class="project-section">
+    <div class="container">
+        <div class="row">
+            <div class="panel__image col-sm-12 col-md-6 col-lg-6">
+                <img id="side_img"
+                    src="https://stories.freepiklabs.com/storage/11588/market-launch-amico-2628.png" alt="" />
             </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 login_container">
+                <div class="login_div">
+                    <h1>Login</h1>
+                    <hr>
+                    <form action="{% url 'account:login' %}" method="POST">
+                        <div>
+                            {% csrf_token %}
 
-            <div style="margin: 1rem 0 1rem 5.5rem;">
-                <button style="text-align: center !important;" class="btn btn-primary" type="submit">Login</button>
-            </div>
-    </div>
-    <div class="google_wrapper">
-        <a href="{% provider_login_url 'google' method='oauth2' %}">
-            <div class="google-btn">
-                <div class="google-icon-wrapper">
-                    <img class="google-icon"
-                        src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
-                </div>
-                <p class="btn-text"><b>Sign in with Google</b></p>
-            </div>
-        </a>
-    </div>
-    <div class="google_wrapper">
-        <a href="{% provider_login_url 'github' method='oauth2' %}">
-            <div class="github-btn">
-                <div class="github-icon-wrapper">
-                    <img class="github-icon"
-                        src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"/>
-                </div>
-                <p class="btn-text"><b>Sign in with GitHub</b></p>
-            </div>
-        </a>
-    </div>
-    </form>
+                            <div class="form__input-field">
+                                <i class="fas fa-user"></i>
+                                {{form.email}}
+                            </div>
+                            {% for error in form.email.errors %}
+                            <small class="error">{{ error }}</small>
+                            {% endfor %}
+                            <div class="form__input-field">
+                                <i class="fas fa-key"></i>
+                                {{form.password}}
+                            </div>
+                            {% for error in form.password.errors %}
+                            <br><small class="error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
 
-    <p class="text-center">Don't have an accout? <a href="{% url 'account:register' %}">Sign-up</p></a>
-    <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a href="{% url 'account:reset' %}">Reset</p></a>
-</div>
-</div>
-</div>
+                        <div>
+                            <button class="btn btn-transparent" id="sign-in-btn">
+                                Sign In
+                            </button>
+                        </div>
+                        <br>
+                        <div class=" google_wrapper">
+                            <a href="{% provider_login_url 'google' method='oauth2' %}">
+                                <div class="google-btn">
+                                    <div class="google-icon-wrapper">
+                                        <img class="google-icon"
+                                            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+                                    </div>
+                                    <p class="btn-text"><b>Sign in with Google</b></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class=" google_wrapper">
+                            <a href="{% provider_login_url 'github' method='oauth2' %}">
+                                <div class="github-btn">
+                                    <div class="github-icon-wrapper">
+                                        <img class="github-icon"
+                                            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
+                                    </div>
+                                    <p class="btn-text"><b>Sign in with GitHub</b></p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <p class="text-center">Don't have an accout? <a href="{% url 'account:register' %}">Sign-up</p>
+                        </a>
+                        <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a
+                                href="{% url 'account:reset' %}">Reset
+                        </p></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+</section>
 
 <style>
     @import url(https://fonts.googleapis.com/css?family=Roboto:500);
-.google_wrapper{
-    margin: 0 auto;
-    width : 184px;
-}    
-.google-btn {
+
+
+
+    @media only screen and (max-width: 991.98px) {
+        .panel__image{
+           display:none;
+        }
+    }
+    .side_img{
+        width:200px;
+    }
+    .login_div {
+        padding-top: 50px;
+    }
+
+
+    :-webkit-autofill::first-line {
+        font-size: 1.30rem;
+        letter-spacing: 0.05rem;
+    }
+
+    .login_container {
+        padding-bottom: 30px;
+        margin: auto;
+        margin-top: 30px;
+        align-items: center;
+
+    }
+
+    .google_wrapper {
+
+        margin: auto;
+        margin-bottom: 5px;
+        width: 184px;
+
+    }
+
+    .google-btn {
         width: 184px;
         height: 38px;
         background-color: #4285f4;
         border-radius: 2px;
         box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
     }
+
     .github-btn {
         width: 184px;
         height: 38px;
@@ -87,6 +135,7 @@
         border-radius: 2px;
         box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
     }
+
     .github-btn .github-icon-wrapper {
         position: absolute;
         margin-top: 1px;
@@ -97,6 +146,7 @@
         background-color: #fff;
         text-align: left !important;
     }
+
     .github-icon {
         text-align: left !important;
         position: absolute;
@@ -105,6 +155,7 @@
         width: 27px;
         height: 27px;
     }
+
     .google-btn .google-icon-wrapper {
         position: absolute;
         margin-top: 1px;
@@ -141,7 +192,112 @@
     .google-btn:active {
         background: #1669F2;
     }
-    .github-btn:hover{
+
+    .github-btn:hover {
         box-shadow: 0 0 6px #404040;
     }
+
+    .form {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 50%;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+        z-index: 5;
+        -webkit-transition: 1s 0.7s ease-in-out;
+        transition: 1s 0.7s ease-in-out;
+    }
+
+    .form__title {
+        font-size: 2.2rem;
+        color: #444;
+        margin-bottom: 10px;
+    }
+
+    .form__input-field {
+        max-width: 280px;
+        width: 100%;
+        height: 3.937rem;
+        background-color: #f0f0f0;
+        margin: auto;
+        margin-bottom: 15px;
+        margin-top: 15px;
+        font-size: 20px;
+        border-radius: 3.437rem;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: 15% 85%;
+        grid-template-columns: 15% 85%;
+        padding: 0 0.4rem;
+    }
+
+    .form__input-field i {
+        text-align: center;
+        line-height: 3.937rem;
+        color: #acacac;
+        font-size: 1.3rem;
+    }
+
+    .form__input-field input {
+        background: none;
+        outline: none;
+        border: none;
+        line-height: 1;
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: #333;
+        border-radius: inherit;
+    }
+
+    .form__input-field input::-webkit-input-placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__input-field input:-ms-input-placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__input-field input::-ms-input-placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__input-field input::placeholder {
+        color: #aaa;
+        font-weight: 500;
+    }
+
+    .form__submit {
+        width: 9.375rem;
+        height: 3.0625rem;
+        border: none;
+        outline: none;
+        border-radius: 3.0625rem;
+        cursor: pointer;
+        background-color: #b538d1;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin: 10px 0;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+    }
+
+    .panel__img {
+        width: 300px;
+        transition: all 1s
+    }
+    #sign-in-btn:hover{
+        background-color: rgb(226, 226, 226);
+    }
 </style>
+
+
+{% endblock %}
