@@ -3,84 +3,6 @@
 {% block content %}
 {% load crispy_forms_tags %}
 {% load socialaccount %}
-<script src="https://kit.fontawesome.com/1788c719dd.js" crossorigin="anonymous"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-
-<section class="project-section">
-    <div class="container">
-        <div class="row">
-            <div class="panel__image col-sm-12 col-md-6 col-lg-6">
-                <img id="side_img"
-                    src="https://stories.freepiklabs.com/storage/11588/market-launch-amico-2628.png" alt="" />
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6 login_container">
-                <div class="login_div">
-                    <h1>Login</h1>
-                    <hr>
-                    <form action="{% url 'account:login' %}" method="POST">
-                        <div>
-                            {% csrf_token %}
-
-                            <div class="form__input-field">
-                                <i class="fas fa-user"></i>
-                                {{form.email}}
-                            </div>
-                            {% for error in form.email.errors %}
-                            <small class="error">{{ error }}</small>
-                            {% endfor %}
-                            <div class="form__input-field">
-                                <i class="fas fa-key"></i>
-                                {{form.password}}
-                            </div>
-                            {% for error in form.password.errors %}
-                            <br><small class="error">{{ error }}</small>
-                            {% endfor %}
-                        </div>
-
-                        <div>
-                            <button class="btn btn-transparent" id="sign-in-btn">
-                                Sign In
-                            </button>
-                        </div>
-                        <br>
-                        <div class=" google_wrapper">
-                            <a href="{% provider_login_url 'google' method='oauth2' %}">
-                                <div class="google-btn">
-                                    <div class="google-icon-wrapper">
-                                        <img class="google-icon"
-                                            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
-                                    </div>
-                                    <p class="btn-text"><b>Sign in with Google</b></p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class=" google_wrapper">
-                            <a href="{% provider_login_url 'github' method='oauth2' %}">
-                                <div class="github-btn">
-                                    <div class="github-icon-wrapper">
-                                        <img class="github-icon"
-                                            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
-                                    </div>
-                                    <p class="btn-text"><b>Sign in with GitHub</b></p>
-                                </div>
-                            </a>
-                        </div>
-
-                        <p class="text-center">Don't have an accout? <a href="{% url 'account:register' %}">Sign-up</p>
-                        </a>
-                        <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a
-                                href="{% url 'account:reset' %}">Reset
-                        </p></a>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    </div>
-    </div>
-</section>
-
 <style>
     @import url(https://fonts.googleapis.com/css?family=Roboto:500);
 
@@ -298,6 +220,81 @@
         background-color: rgb(226, 226, 226);
     }
 </style>
+<section class="project-section">
+    <div class="container">
+        <div class="row">
+            <div class="panel__image col-sm-12 col-md-6 col-lg-6">
+                <img id="side_img"
+                    src="https://stories.freepiklabs.com/storage/11588/market-launch-amico-2628.png" alt="" />
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 login_container">
+                <div class="login_div">
+                    <h1>Login</h1>
+                    <hr>
+                    <form action="{% url 'account:login' %}" method="POST">
+                        <div>
+                            {% csrf_token %}
 
+                            <div class="form__input-field">
+                                <i class="fas fa-user"></i>
+                                {{form.email}}
+                            </div>
+                            {% for error in form.email.errors %}
+                            <small class="error">{{ error }}</small>
+                            {% endfor %}
+                            <div class="form__input-field">
+                                <i class="fas fa-key"></i>
+                                {{form.password}}
+                            </div>
+                            {% for error in form.password.errors %}
+                            <br><small class="error">{{ error }}</small>
+                            {% endfor %}
+                        </div>
+
+                        <div>
+                            <button class="btn btn-transparent" id="sign-in-btn">
+                                Sign In
+                            </button>
+                        </div>
+                        <br>
+                        <div class=" google_wrapper">
+                            <a href="{% provider_login_url 'google' method='oauth2' %}">
+                                <div class="google-btn">
+                                    <div class="google-icon-wrapper">
+                                        <img class="google-icon"
+                                            src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+                                    </div>
+                                    <p class="btn-text"><b>Sign in with Google</b></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class=" google_wrapper">
+                            <a href="{% provider_login_url 'github' method='oauth2' %}">
+                                <div class="github-btn">
+                                    <div class="github-icon-wrapper">
+                                        <img class="github-icon"
+                                            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" />
+                                    </div>
+                                    <p class="btn-text"><b>Sign in with GitHub</b></p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <p class="text-center">Don't have an accout? <a href="{% url 'account:register' %}">Sign-up</p>
+                        </a>
+                        <p style="margin-top: -0.8rem;" class="text-center">Forgor Password? <a
+                                href="{% url 'account:reset' %}">Reset
+                        </p></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+</section>
+<script src="https://kit.fontawesome.com/1788c719dd.js" crossorigin="anonymous"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 {% endblock %}
