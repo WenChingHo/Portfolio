@@ -1,22 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<section id="intro" class="intro-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 ">
-                
-                <h1>WenChingHo's Portfolio</h1><br>
-                <h4>Functionalities Implemented:</h4>
-                <hr>
-                <p>1. Verification Email (Sendgrid)</p>
-                <p>2. Social Login (OAuth2)</p>
-                <p>3. Middleware Permission check</p>
-                <br><br>
-                <a class="btn btn-default page-scroll" href="#about">Click Me to Scroll Down!</a>
-            </div>
-        </div>
-    </div>
+
+<!-- Main Section -->
+<section style="padding-top: 150px;" id="intro" class="intro-section">
+    {% include 'main/top_section.html' %}
 </section>
 
 <!-- About Section -->
@@ -47,29 +35,29 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1>Contact Section</h1>
-                    <div class="mail_container contact_me_container">
-                        <div class="content">
-                            <div class="circle">
-                                <div class="mail-box">
-                                    <div class="flag"></div>
-                                </div>
+                <div class="mail_container contact_me_container">
+                    <div class="content">
+                        <div class="circle">
+                            <div class="mail-box">
+                                <div class="flag"></div>
                             </div>
-                        </div>
-                        <div class="content"></div>
-                        <div class="content draggable_envelope">
-                            <div class="envelope"></div>
-                            <div class="letter">
-                                <div class="body">
-                                    <span class="close" onclick="event.stopPropagation(); closeCard()">x</span>
-                                    <form class="message" method="post">
-                                        {% csrf_token %}
-                                        {{contact_me_form|crispy}}
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="shadow"></div>
                         </div>
                     </div>
+                    <div class="content"></div>
+                    <div class="content draggable_envelope">
+                        <div class="envelope"></div>
+                        <div class="letter">
+                            <div class="body">
+                                <span class="close" onclick="event.stopPropagation(); closeCard()">x</span>
+                                <form class="message" method="post">
+                                    {% csrf_token %}
+                                    {{contact_me_form|crispy}}
+                                </form>
+                            </div>
+                        </div>
+                        <div class="shadow"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -84,20 +72,53 @@
         --shadow: #4F4C6B;
         --letter: #d8d7e5;
     }
-
+    html, body {
+    padding: 0;
+}
     * {
         border: 0;
         margin: 0;
         box-sizing: border-box;
     }
-    h1{
+
+    h1 {
         font-size: 50px;
     }
+    ul {
+            list-style-type: none;
+            margin-left:-4rem;
+            font-size: 1.45rem;
+            margin-bottom: 0;
+        }
+
+    .intro-section {
+        height: 100%;
+        z-index: 100;
+        background: linear-gradient(180deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.85), transparent);
+    }
+
+    .description {
+        background-color: rgb(255, 255, 255, 0.55);
+        backdrop-filter: blur(5px);
+        margin-top: -10px;
+       
+    }
+
+    @media screen and (min-width:992px) {
+        .description {
+            text-align: left;
+        }
+
+        ul {
+            list-style-type: inherit;
+        }
+    }
+
     .mail_container {
         min-height: 100vh;
         display: flex;
         align-items: center;
-        margin-left:-200px;
+        margin-left: -200px;
         justify-content: space-evenly;
     }
 
@@ -192,7 +213,7 @@
         content: "";
         position: absolute;
         top: 0;
-        left:0px;
+        left: 0px;
         width: 200px;
         height: 110px;
         z-index: 25;
@@ -469,10 +490,10 @@
     });
     $(".draggable_envelope").click(e => openCard(e));
 
-    
 
 
-    
+
+
 </script>
 
 {% endblock %}
